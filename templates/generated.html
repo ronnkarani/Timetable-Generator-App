@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generated Timetables</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 40px; background: white; }
+    th, td { border: 1px solid #333; text-align: center; padding: 6px; font-size: 13px; }
+    th { background: #444; color: white; }
+    .break { background: #e6e6e6; font-weight: bold; writing-mode: vertical-rl; text-orientation: mixed; }
+    h2 { background: maroon; color: white; padding: 10px; }
+    .controls { margin-bottom: 20px; }
+    .controls a, .controls button { padding: 8px 12px; background: #007bff; color: white; border-radius: 5px; margin-right: 10px; border: none; cursor: pointer; text-decoration: none; }
+    .controls button { background: #333; }
+  </style>
+</head>
+<body>
+  <h1>Auto-Generated Timetables</h1>
+
+  <div class="controls">
+    <button onclick="window.print()">🖨️ Print</button>
+    <a href="{% url 'download_pdf' %}">⬇️ Download PDF</a>
+    <a href="{% url 'generate_timetables' %}">🔄 Regenerate</a>
+  </div>
+
+  {% for stream, days in timetable_data.items %}
+    <h2>{{ stream }}</h2>
+    <table>
+      <thead>
+  <tr>
+    <th>DAY</th>
+    {% with first_day=days|dictsort:"0"|first %}
+      {% for slot_time, slot_data in first_day.1.items %}
+        <th>{{ slot_time|time:"H:i" }}</th>
+      {% endfor %}
+    {% endwith %}
+  </tr>
+</thead>
+
+      <tbody>
+        {% for day, slots in days.items %}
+          <tr>
+            <td>{{ day|upper }}</td>
+            {% for slot_time, entry in slots.items %}
+              {% if entry.is_break %}
+                <td class="break" rowspan="1">{{ entry.subject }}</td>
+              {% else %}
+                <td>
+                  <b>{{ entry.subject }}</b><br>
+                  <small>{{ entry.teacher }}</small>
+                </td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+</body>
+</html>
