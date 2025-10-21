@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}School Timetable{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <nav>
+<div class="logo">
+    <a href="{% url 'dashboard' %}">
+        <i class="fas fa-school"></i> School Timetable
+    </a>
+</div>
+
+    <ul id="nav-links">
+<li><a href="{% url 'teachers' %}">Teachers</a></li>
+<li><a href="{% url 'classes' %}">Classes</a></li>
+<li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
+
+    </ul>
+    <div class="hamburger" id="menu-toggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    &copy; {{ year }} School Timetable. All rights reserved.
+  </footer>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

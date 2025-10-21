@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    {% if formset %}
+        <h3>Streams</h3>
+        {{ formset.management_form }}
+        {% for f in formset %}
+            <div style="margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
+                {{ f.name.label_tag }} {{ f.name }}
+                {% if f.instance.pk %}
+                    {{ f.DELETE }} Delete
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <button type="submit" style="background: maroon; color: white; padding: 10px 15px; border: none; cursor: pointer;">
+        Save
+    </button>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>💼 Classes</h1>
+<p>✅ List of all classes and their streams.</p>
+<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}"></i> View Teachers &  Subjects</a></p>
+<table>
+  <tr><th>Class</th><th>Streams</th></tr>
+  {% for cls in classes %}
+    <tr>
+      <td>{{ cls.name }}</td>
+      <td>
+{% for stream in cls.streams.all %}
+    {{ stream.name }}{% if not forloop.last %}, {% endif %}
+{% empty %}
+    N/A
+{% endfor %}
+</td>
+
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

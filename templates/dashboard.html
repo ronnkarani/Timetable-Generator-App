@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h1>👤 Admin Dashboard</h1>
+<p>✅ Welcome to the School Timetable Generator Dashboard. </p>
+<p>✅ Use the links below to add teachers, classes, subjects & assign subjects to class streams &  teachers.</p>
+<p>✅ After adding all the necessary data,  timetables are generated automatically for each class stream.</p>
+
+
+<div class="dashboard-links">
+  <h2>Add Data</h2>
+  <ul>
+    <li><a href="{% url 'add_teacher' %}"><i class="fas fa-user"></i> Add Teacher</a></li>
+    <li><a href="{% url 'add_class' %}"><i class="fas fa-chalkboard"></i> Add Class & Streams</a></li>
+    <li><a href="{% url 'add_subject' %}"><i class="fas fa-book"></i> Add Subject</a></li>
+    <li><a href="{% url 'add_assignment' %}"><i class="fas fa-tasks"></i> Add Stream Subject Teacher</a></li>
+  </ul>
+
+  <h2>View Data</h2>
+  <ul>
+    <li><a href="{% url 'teachers' %}"><i class="fas fa-user"></i> View Teachers</a></li>
+    <li><a href="{% url 'classes' %}"><i class="fas fa-chalkboard"></i> View Classes</a></li>
+    <li><a href="{% url 'assignments' %}"><i class="fas fa-tasks"></i> View Teachers &  Subjects</a></li>
+    <li><a href="{% url 'generate_timetables' %}"><i class="fas fa-calendar-alt"></i> View Timetables</a></li>
+  </ul>
+</div>
+
+{% endblock %}

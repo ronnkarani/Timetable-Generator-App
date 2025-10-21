@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Stream-Subject-Teacher Assignments{% endblock %}
+
+{% block content %}
+<h1>🎓 Stream Subject & Teacher Assignments</h1>
+<p>✅ List of all assignments of subjects to streams along with their respective teachers.</p>
+
+<!-- Search Form -->
+<form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search by stream, subject, or teacher..." value="{{ query|default:'' }}">
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Stream</th>
+            <th>Subject</th>
+            <th>Teacher</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for assignment in assignments %}
+        <tr>
+            <td>{{ assignment.stream }}</td>
+            <td>{{ assignment.subject }}</td>
+            <td>{{ assignment.teacher }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No assignments found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

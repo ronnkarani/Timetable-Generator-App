@@ -1,0 +1,326 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-top: 60px; /* Navbar height */
+  overflow-x: hidden; /* hides any horizontal overflow */
+}
+
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; /* ensures full width without overflow */
+  background: maroon;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1000;
+  box-sizing: border-box; /* include padding in width calculations */
+  overflow-x: hidden; /* prevent scroll overflow */
+}
+
+
+nav .logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+nav .logo a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+nav .logo i {
+  margin-right: 8px; /* space between icon and text */
+  color: white;       /* match the logo text color */
+}
+
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap; /* allows items to wrap instead of overflowing */
+}
+
+nav ul li {
+  margin-left: 20px;
+  flex-shrink: 1; /* allows shrinking if needed */
+}
+
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px; /* optional */
+}
+
+
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: white;
+  margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: maroon;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 200px;
+  }
+  nav ul.active {
+    display: flex;
+  }
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Search Form Styling */
+.search-form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.search-form input[type="text"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background: maroon;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-form button:hover {
+    background: #800000; /* slightly darker on hover */
+}
+
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: maroon;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* Main content padding */
+main {
+  padding: 20px;
+  min-height: calc(100vh - 120px);
+}
+
+/* Forms */
+form input, form select, form button, form textarea {
+  display: block;
+  margin-bottom: 15px;
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+form button {
+  width: auto;
+  background: maroon;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.dashboard-links h2 {
+  margin-top: 30px;
+  color: white; /* change from maroon to white */
+  background: maroon;
+  padding: 10px;
+  border-radius: 5px; /* optional, looks nice */
+}
+
+
+.dashboard-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-links ul li {
+  margin-bottom: 10px;
+}
+
+.dashboard-links ul li a {
+  text-decoration: none;
+  color: white;
+  background: maroon;
+  padding: 8px 12px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.dashboard-links ul li a i {
+  margin-right: 8px; /* space between icon and text */
+  color: white; /* match link color */
+}
+
+
+/* Timetable tables */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h2 {
+  background: maroon;
+  color: white;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 40px;
+  background: white;
+  table-layout: fixed;
+}
+
+th, td {
+  border: 1px solid #333;
+  text-align: center;
+  padding: 6px;
+  font-size: 13px;
+  word-wrap: break-word;
+}
+
+th {
+  background: #444;
+  color: white;
+}
+
+td.break {
+  background: #f2dede;
+  font-weight: bold;
+  color: #a94442;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+td.subject {
+  background: #dff0d8;
+}
+
+.controls {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.controls a, .controls button {
+  padding: 8px 12px;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.controls button {
+  background: #333;
+}
+
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  th {
+    display: none;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
+ 
+.timetable { 
+  width: 100%; 
+  border-collapse: collapse;
+  page-break-after: always; /* print each timetable on a separate page */
+}
+
+.timetable th, .timetable td {
+  border: 1px solid #333;
+  padding: 5px;
+  text-align: center;
+}
+
+.break { 
+  background-color: #f0f0f0; 
+  font-style: italic; 
+}
+
+.subject { 
+  text-align: center; 
+}
+
+.stream-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+@media print {
+  .controls { display: none; } /* hide buttons when printing */
+  body * {
+    visibility: hidden; /* hide everything else */
+  }
+  .timetable-container, .timetable-container * {
+    visibility: visible; /* show timetable and its title */
+  }
+  .timetable-container {
+    page-break-before: always;
+    page-break-after: always;
+    width: 100%;
+  }
+}

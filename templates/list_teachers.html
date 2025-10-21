@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>👨‍👨‍👧‍👦 Teachers</h1>
+<p>✅ List of all teachers and the subjects they teach.</p>
+<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}"></i> View Teachers &  Subjects</a></p>
+
+<form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search by stream, subject, or teacher..." value="{{ query|default:'' }}">
+    <button type="submit">Search</button>
+</form>
+
+<table>
+  <tr><th>Name</th><th>Subjects</th></tr>
+  {% for teacher in teachers %}
+    <tr>
+      <td>{{ teacher.name }}</td>
+      <td>
+        {% for stt in teacher.streamsubjectteacher_set.all %}
+          {{ stt.subject.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          N/A
+        {% endfor %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="2">No teachers found.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
