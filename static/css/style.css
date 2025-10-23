@@ -5,6 +5,15 @@ body {
   overflow-x: hidden; /* hides any horizontal overflow */
 }
 
+/* Main content padding */
+main {
+  padding: 20px;
+  min-height: calc(100vh - 120px);
+  position: relative;
+  z-index: 1;
+  padding-bottom: 70px; /* 👈 ensures footer space so nothing overlaps */
+}
+
 
 nav {
   position: fixed;
@@ -77,23 +86,6 @@ nav ul li a {
   margin: 4px 0;
 }
 
-@media (max-width: 768px) {
-  nav ul {
-    display: none;
-    flex-direction: column;
-    background: maroon;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    width: 200px;
-  }
-  nav ul.active {
-    display: flex;
-  }
-  .hamburger {
-    display: flex;
-  }
-}
 
 /* Search Form Styling */
 .search-form {
@@ -126,67 +118,79 @@ nav ul li a {
     background: #800000; /* slightly darker on hover */
 }
 
-
-/* Footer */
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: maroon;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-}
-
-/* Main content padding */
-main {
-  padding: 20px;
-  min-height: calc(100vh - 120px);
-}
-
 /* Forms */
-form input, form select, form button, form textarea {
-  display: block;
-  margin-bottom: 15px;
-  padding: 8px;
-  width: 100%;
-  max-width: 400px;
+.form-container {
+  background: #fff;
+  padding: 20px;
+  margin: 40px auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-form button {
-  width: auto;
-  background: maroon;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.dashboard-links h2 {
-  margin-top: 30px;
-  color: white; /* change from maroon to white */
-  background: maroon;
-  padding: 10px;
-  border-radius: 5px; /* optional, looks nice */
-}
-
-
-.dashboard-links ul {
-  list-style: none;
-  padding: 0;
-}
-
-.dashboard-links ul li {
+.form-container h1 {
+  text-align: center;
+  color: maroon;
   margin-bottom: 10px;
 }
 
-.dashboard-links ul li a {
-  text-decoration: none;
-  color: white;
-  background: maroon;
-  padding: 8px 12px;
-  border-radius: 5px;
-  display: inline-block;
+.form-container p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
 }
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  background: maroon;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: darkred;
+}
+
+
+.dashboard-links h2 {
+  margin-top: 30px;
+  color: white;
+  background: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-align: center;       /* ✅ centers the heading */
+  display: inline-block;    /* keeps width tight to text */
+  margin-left: 50%;
+  transform: translateX(-50%); /* ✅ perfectly centers it horizontally */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2); /* optional depth effect */
+}
+
 
 .dashboard-links ul li a i {
   margin-right: 8px; /* space between icon and text */
@@ -194,10 +198,135 @@ form button {
 }
 
 
+/* === Dashboard Cards === */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.card {
+  background: maroon;
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.card a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.card a i {
+  margin-right: 8px;
+}
+
+/* Highlighted main action card */
+.highlight-card {
+  background: linear-gradient(135deg, rgb(0, 128, 21), #4dff5c);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 128, 21, 0.4);
+  transform: scale(1.02);
+  border: 2px solid #ffcccc;
+  animation: pulse 2s infinite;
+}
+
+.highlight-card a {
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.highlight-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 15px rgba(128, 0, 0, 0.5);
+  animation: none; /* stop pulsing when hovered */
+}
+
+/* Subtle glowing pulse animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(24, 114, 29, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(77, 255, 77, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(77, 255, 107, 0.5);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Universal button/link style */
+.btn-global {
+  display: inline-block;
+  background: maroon;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.btn-global:hover {
+  background: #240303;
+  
+}
+
+/* Universal paragraph styling for content pages */
+main p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 12px;
+  background: #f9f9f9;
+  border-left: 4px solid maroon;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Highlight links inside paragraphs */
+main p a {
+  color: maroon;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+main p a:hover {
+  text-decoration: underline;
+  color: #a10000;
+}
+
+
 /* Timetable tables */
 h1 {
   text-align: center;
   margin-bottom: 30px;
+  font-weight: bold;
 }
 
 h2 {
@@ -220,6 +349,8 @@ th, td {
   text-align: center;
   padding: 6px;
   font-size: 13px;
+    font-weight: bold;
+
   word-wrap: break-word;
 }
 
@@ -239,49 +370,50 @@ td.break {
 td.subject {
   background: #dff0d8;
 }
-
 .controls {
-  margin-bottom: 20px;
+  margin: 20px auto;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.controls a, .controls button {
-  padding: 8px 12px;
-  background: #007bff;
-  color: white;
-  border-radius: 5px;
-  margin-right: 10px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 14px;
-}
-
+.controls a,
 .controls button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Distinct button colors */
+.controls .btn-print {
   background: #333;
 }
 
-@media screen and (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  th {
-    display: none;
-  }
-
-  td {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-  }
-
-  td::before {
-    content: attr(data-label);
-    font-weight: bold;
-  }
+.controls a[href*="download_pdf"] {
+  background: #28a745; /* Green */
 }
- 
+
+.controls a[href*="regenerate"] {
+  background: #ff9800; /* Orange */
+}
+
+/* Hover effects */
+.controls a:hover,
+.controls button:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+
 .timetable { 
   width: 100%; 
   border-collapse: collapse;
@@ -310,6 +442,142 @@ td.subject {
   margin-bottom: 10px;
 }
 
+/* Action buttons in tables */
+.action-btn {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s ease-in-out;
+}
+
+.action-btn.view { background: #17a2b8; color: white; }  /* teal */
+.action-btn.edit { background: #ffc107; color: black; }   /* yellow */
+.action-btn.delete { background: #dc3545; color: white; } /* red */
+
+.action-btn:hover {
+  opacity: 0.8;
+}
+
+/* Pagination styling */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 6px 12px;
+  color: white;
+  background: maroon;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  background: #800000;
+}
+
+.pagination span {
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+
+/* Universal Detail and Delete Pages */
+.detail-container, .delete-container {
+  background: #fff;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.detail-container h1,
+.delete-container h1 {
+  color: maroon;
+  margin-bottom: 20px;
+}
+
+.detail-container p, .delete-container p {
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.detail-actions, .delete-container form {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+.action-btn.back { background: #6c757d; }
+.action-btn.edit { background: #007bff; }
+.action-btn.delete { background: #dc3545; }
+.action-btn.view { background: #17a2b8; }
+
+.action-btn:hover { opacity: 0.9; }
+
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: maroon;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 2000; /* make sure it's above all content */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2); /* optional nice touch */
+}
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  th {
+    display: none;
+      font-weight: bold;
+
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
+ 
+
+
 @media print {
   .controls { display: none; } /* hide buttons when printing */
   body * {
@@ -323,4 +591,61 @@ td.subject {
     page-break-after: always;
     width: 100%;
   }
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 3000; /* keep it clickable */
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: maroon;
+    position: fixed;
+    top: 60px; /* appear below navbar */
+    right: 0;
+    width: 200px;
+    z-index: 2500; /* above content */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  nav ul.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  nav ul li {
+    text-align: center;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+  }
+
+  nav ul {
+  transition: all 0.3s ease-in-out;
+}
+
 }

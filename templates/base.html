@@ -9,19 +9,19 @@
 
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
   <nav>
-<div class="logo">
-    <a href="{% url 'dashboard' %}">
-        <i class="fas fa-school"></i> School Timetable
-    </a>
-</div>
+    <div class="logo">
+        <a href="{% url 'dashboard' %}">
+            <i class="fas fa-school"></i> School Timetable Generator
+        </a>
+    </div>
 
     <ul id="nav-links">
-<li><a href="{% url 'teachers' %}">Teachers</a></li>
-<li><a href="{% url 'classes' %}">Classes</a></li>
-<li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
-
+      <li><a href="{% url 'teachers' %}">Teachers</a></li>
+      <li><a href="{% url 'classes' %}">Classes</a></li>
+      <li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
     </ul>
     <div class="hamburger" id="menu-toggle">
       <div></div>
@@ -35,7 +35,7 @@
   </main>
 
   <footer>
-    &copy; {{ year }} School Timetable. All rights reserved.
+    &copy; Timetable Generator.All rights reserved. Designed & Developed with 🧡 by Ronny from Swft Labs.
   </footer>
 
   <script src="{% static 'js/script.js' %}"></script>

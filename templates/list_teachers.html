@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>👨‍👨‍👧‍👦 Teachers</h1>
-<p>✅ List of all teachers and the subjects they teach.</p>
-<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}"></i> View Teachers &  Subjects</a></p>
+
+<p>✅ List of all Teachers & the Subjects they teach.</p>
+<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}" class="btn-global"></i>👁️ View Teachers &  Subjects</a></p>
+<p>✅ To add new  Teachers <a href="{% url 'add_teacher' %}" class="btn-global">➕ Add Teacher</a></p>
+
 
 <form method="get" class="search-form">
     <input type="text" name="q" placeholder="Search by stream, subject, or teacher..." value="{{ query|default:'' }}">
@@ -10,7 +13,12 @@
 </form>
 
 <table>
-  <tr><th>Name</th><th>Subjects</th></tr>
+  <tr>
+    <th>Name</th>
+    <th>Subjects</th>
+        <th>Actions</th>
+
+  </tr>
   {% for teacher in teachers %}
     <tr>
       <td>{{ teacher.name }}</td>
@@ -21,9 +29,29 @@
           N/A
         {% endfor %}
       </td>
+       <td>
+        <a href="{% url 'view_teacher' teacher.id %}" class="action-btn view">👁️</a>
+        <a href="{% url 'edit_teacher' teacher.id %}" class="action-btn edit">✏️</a>
+        <a href="{% url 'delete_teacher' teacher.id %}" class="action-btn delete">🗑️</a>
+      </td>
     </tr>
   {% empty %}
     <tr><td colspan="2">No teachers found.</td></tr>
   {% endfor %}
 </table>
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Prev</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next &raquo;</a>
+  {% endif %}
+</div>
+{% endif %}
+
 {% endblock %}

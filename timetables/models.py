@@ -43,13 +43,3 @@ class StreamSubjectTeacher(models.Model):
     def __str__(self):
         return f"{self.stream} - {self.subject} ({self.teacher})"
 
-
-# timetables/models.py
-class TimeSlot(models.Model):
-    name = models.CharField(max_length=50, default="Lesson")  # e.g., "Lesson 1", "Break", "Lunch"
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    is_break = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.name} ({self.start_time.strftime('%H:%M')} - {self.end_time.strftime('%H:%M')})"

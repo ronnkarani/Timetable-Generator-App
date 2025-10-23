@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ type }}{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+  <h1>⚠️ Confirm Delete</h1>
+  <p>Are you sure you want to delete this {{ type }}?</p>
+  <p class="delete-item"><strong>{{ object }}</strong></p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="action-btn delete">Yes, Delete</button>
+    <a href="{{ cancel_url }}" class="action-btn back">Cancel</a>
+  </form>
+</div>
+{% endblock %}

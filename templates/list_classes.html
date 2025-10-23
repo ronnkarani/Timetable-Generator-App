@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>💼 Classes</h1>
-<p>✅ List of all classes and their streams.</p>
-<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}"></i> View Teachers &  Subjects</a></p>
+
+<p>✅ List of all Classes and their Streams.</p>
+<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}" class="btn-global"></i>👁️ View Teachers &  Subjects</a></p>
+<p>✅ Add new Classes &  their Streams<a href="{% url 'add_class' %}" class="btn-global">➕ Add Class</a> </p>
+ 
+
 <table>
-  <tr><th>Class</th><th>Streams</th></tr>
+  <tr>
+    <th>Class</th>
+    <th>Streams</th>
+        <th>Actions</th>
+
+  </tr>
   {% for cls in classes %}
     <tr>
       <td>{{ cls.name }}</td>
@@ -15,8 +24,29 @@
     N/A
 {% endfor %}
 </td>
+<td>
+  <a href="{% url 'view_class' cls.id %}" class="action-btn view">👁️</a>
+  <a href="{% url 'edit_class' cls.id %}" class="action-btn edit">✏️</a>
+  <a href="{% url 'delete_class' cls.id %}" class="action-btn delete">🗑️</a>
+</td>
+
 
     </tr>
   {% endfor %}
 </table>
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Prev</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next &raquo;</a>
+  {% endif %}
+</div>
+{% endif %}
+
 {% endblock %}

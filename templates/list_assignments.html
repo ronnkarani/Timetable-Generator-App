@@ -4,7 +4,11 @@
 
 {% block content %}
 <h1>🎓 Stream Subject & Teacher Assignments</h1>
-<p>✅ List of all assignments of subjects to streams along with their respective teachers.</p>
+
+<p>✅ List of all assignments of Subjects to Streams along with their respective Teachers.</p>
+
+<p>✅ Assign Subject to  Teachers  in specific Streams/Classes<a href="{% url 'add_assignment' %}" class="btn-global">➕ Add Assignment</a> </p>
+
 
 <!-- Search Form -->
 <form method="get" class="search-form">
@@ -18,6 +22,8 @@
             <th>Stream</th>
             <th>Subject</th>
             <th>Teacher</th>
+                <th>Actions</th>
+
         </tr>
     </thead>
     <tbody>
@@ -26,6 +32,12 @@
             <td>{{ assignment.stream }}</td>
             <td>{{ assignment.subject }}</td>
             <td>{{ assignment.teacher }}</td>
+             <td>
+  <a href="{% url 'view_assignment' assignment.id %}" class="action-btn view">👁️</a>
+  <a href="{% url 'edit_assignment' assignment.id %}" class="action-btn edit">✏️</a>
+  <a href="{% url 'delete_assignment' assignment.id %}" class="action-btn delete">🗑️</a>
+</td>
+
         </tr>
         {% empty %}
         <tr>
@@ -34,4 +46,19 @@
         {% endfor %}
     </tbody>
 </table>
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Prev</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next &raquo;</a>
+  {% endif %}
+</div>
+{% endif %}
+
 {% endblock %}

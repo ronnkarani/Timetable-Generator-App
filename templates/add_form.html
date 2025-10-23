@@ -1,28 +1,69 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1>{{ title }}</h1>
+<div class="form-container">
+    <h1>📋 {{ title }}</h1>
 
-<form method="POST">
-    {% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
-    {{ form.as_p }}
-
-    {% if formset %}
-        <h3>Streams</h3>
-        {{ formset.management_form }}
-        {% for f in formset %}
-            <div style="margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
-                {{ f.name.label_tag }} {{ f.name }}
-                {% if f.instance.pk %}
-                    {{ f.DELETE }} Delete
-                {% endif %}
+        {% if form_type == 'teacher' %}
+            <p>👨‍🏫 Add a new teacher to the system.</p>
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Full Name:</label>
+                {{ form.name }}
             </div>
-        {% endfor %}
-    {% endif %}
+            <div class="form-group">
+                <label for="{{ form.teacher_id.id_for_label }}">Teacher ID:</label>
+                {{ form.teacher_id }}
+            </div>
 
-    <button type="submit" style="background: maroon; color: white; padding: 10px 15px; border: none; cursor: pointer;">
-        Save
-    </button>
-</form>
+        {% elif form_type == 'class' %}
+            <p>🏫 Add a new class and its streams below.</p>
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Class Name:</label>
+                {{ form.name }}
+            </div>
+
+            {% if formset %}
+                <h3>🧩 Streams</h3>
+                {{ formset.management_form }}
+                {% for f in formset %}
+                    <div class="stream-form">
+                        {{ f.name.label_tag }} {{ f.name }}
+                        {% if f.instance.pk %}
+                            {{ f.DELETE }} Delete
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        {% elif form_type == 'assignment' %}
+            <p>🗂️ Assign a teacher to a subject and stream.</p>
+            <div class="form-group">
+                <label for="{{ form.stream.id_for_label }}">Select Stream:</label>
+                {{ form.stream }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.subject.id_for_label }}">Select Subject:</label>
+                {{ form.subject }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.teacher.id_for_label }}">Select Teacher:</label>
+                {{ form.teacher }}
+            </div>
+
+        {% elif form_type == 'subject' %}
+            <p>📘 Add a new subject taught in school.</p>
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Subject Name:</label>
+                {{ form.name }}
+            </div>
+
+        {% else %}
+            {{ form.as_p }}
+        {% endif %}
+
+        <button type="submit" class="btn">Save</button>
+    </form>
+</div>
 {% endblock %}

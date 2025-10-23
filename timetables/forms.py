@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import Teacher, SchoolClass, Subject, TimeSlot, Stream, StreamSubjectTeacher
+from .models import Teacher, SchoolClass, Subject,Stream, StreamSubjectTeacher
 
 class StreamSubjectTeacherForm(forms.ModelForm):
     class Meta:
@@ -13,11 +13,6 @@ class StreamSubjectTeacherForm(forms.ModelForm):
         self.fields['stream'].queryset = Stream.objects.all()
         self.fields['subject'].queryset = Subject.objects.all()
         self.fields['teacher'].queryset = Teacher.objects.all()
-
-class StreamForm(forms.ModelForm):
-    class Meta:
-        model = Stream
-        fields = ['name', 'school_class'] 
 
 class TeacherForm(forms.ModelForm):
     class Meta:
@@ -43,7 +38,3 @@ class SubjectForm(forms.ModelForm):
         model = Subject
         fields = ['name']
 
-class TimeSlotForm(forms.ModelForm):
-    class Meta:
-        model = TimeSlot
-        fields = ['name', 'start_time', 'end_time', 'is_break']

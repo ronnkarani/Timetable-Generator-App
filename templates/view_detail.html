@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} Details{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+  <h1>{{ title }} Details</h1>
+
+  {% if type == "teacher" %}
+    <h2>👨‍🏫 {{ object.name }}</h2>
+    <p><strong>Subjects:</strong> 
+      {% for stt in object.streamsubjectteacher_set.all %}
+        {{ stt.subject.name }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+        N/A
+      {% endfor %}
+    </p>
+
+  {% elif type == "class" %}
+    <h2>🏫 {{ object.name }}</h2>
+    <p><strong>Streams:</strong>
+      {% for stream in object.streams.all %}
+        {{ stream.name }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+        N/A
+      {% endfor %}
+    </p>
+
+  {% elif type == "assignment" %}
+    <h2>📘 Assignment ID: {{ object.id }}</h2>
+    <p><strong>Stream:</strong> {{ object.stream }}</p>
+    <p><strong>Subject:</strong> {{ object.subject }}</p>
+    <p><strong>Teacher:</strong> {{ object.teacher }}</p>
+  {% endif %}
+
+  <div class="detail-actions">
+    <a href="{% url return_url %}" class="action-btn back">⬅ Back</a>
+    <a href="{% url edit_url object.id %}" class="action-btn edit">✏️ Edit</a>
+    <a href="{% url delete_url object.id %}" class="action-btn delete">🗑️ Delete</a>
+  </div>
+</div>
+{% endblock %}
