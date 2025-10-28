@@ -3,20 +3,24 @@ from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from datetime import time
-from .models import Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass
+from .models import Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass, TimeSlot
 from .forms import TeacherForm, ClassForm, SubjectForm, StreamSubjectTeacherForm, StreamFormSet
 from datetime import datetime, timedelta
 from django.db.models import Q
 import random
 from django.core.paginator import Paginator
+from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required
 
 
 # Dashboard page
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
 
 
 # Add Teacher
+@login_required
 def add_teacher(request):
     form = TeacherForm(request.POST or None)
     if form.is_valid():
@@ -30,6 +34,8 @@ def add_teacher(request):
 
 
 # Add Class with inline Streams
+@login_required
+
 def add_class(request):
     if request.method == 'POST':
         class_form = ClassForm(request.POST)
@@ -54,7 +60,9 @@ def add_class(request):
     })
 
 
-# Add Subject   
+# Add Subject  
+@login_required
+ 
 def add_subject(request):
     form = SubjectForm(request.POST or None)
     if form.is_valid():
@@ -68,6 +76,8 @@ def add_subject(request):
 
 
 # Add Stream Subject Teacher Assignment
+@login_required
+
 def add_stream_subject_teacher(request):
     from .forms import StreamSubjectTeacherForm
     form = StreamSubjectTeacherForm(request.POST or None)
@@ -81,8 +91,8 @@ def add_stream_subject_teacher(request):
         })
 
 
-
 # View details (universal)
+@login_required
 def view_teacher(request, teacher_id):
     teacher = Teacher.objects.get(id=teacher_id)
     return render(request, 'view_detail.html', {
@@ -94,18 +104,28 @@ def view_teacher(request, teacher_id):
         'delete_url': 'delete_teacher',
     })
 
-
+@login_required
 def view_class(request, class_id):
     school_class = SchoolClass.objects.get(id=class_id)
+    streams = school_class.streams.all()  # all streams
+    # Build a dict for subjects/teachers per stream
+    stream_assignments = {}
+    for stream in streams:
+        assignments = StreamSubjectTeacher.objects.filter(stream=stream)
+        stream_assignments[stream] = assignments
+
     return render(request, 'view_detail.html', {
         'object': school_class,
         'type': 'class',
-        'title': 'Class',
+        'title': f'Class: {school_class.name}',
         'return_url': 'classes',
         'edit_url': 'edit_class',
         'delete_url': 'delete_class',
+        'stream_assignments': stream_assignments
     })
 
+
+@login_required
 
 def view_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
@@ -119,15 +139,42 @@ def view_assignment(request, assignment_id):
     })
 
 # Edit Teacher
+@login_required
+
 def edit_teacher(request, teacher_id):
     teacher = Teacher.objects.get(id=teacher_id)
-    form = TeacherForm(request.POST or None, instance=teacher)
-    if form.is_valid():
-        form.save()
+    TeacherAssignmentFormSet = modelformset_factory(
+        StreamSubjectTeacher,
+        form=StreamSubjectTeacherForm,
+        extra=1,
+        can_delete=True
+    )
+    queryset = StreamSubjectTeacher.objects.filter(teacher=teacher)
+    formset = TeacherAssignmentFormSet(request.POST or None, queryset=queryset)
+
+    teacher_form = TeacherForm(request.POST or None, instance=teacher)
+
+    if teacher_form.is_valid() and formset.is_valid():
+        teacher_form.save()
+        instances = formset.save(commit=False)
+        for inst in instances:
+            inst.teacher = teacher
+            inst.save()
+        # Delete any removed items
+        for inst in formset.deleted_objects:
+            inst.delete()
         return redirect('teachers')
-    return render(request, 'add_form.html', {'form': form, 'title': 'Edit Teacher'})
+
+    return render(request, 'add_form.html', {
+        'form': teacher_form,
+        'formset': formset,
+        'title': 'Edit Teacher',
+        'form_type': 'teacher'
+    })
 
 # Delete Teacher
+@login_required
+
 def delete_teacher(request, teacher_id):
     teacher = Teacher.objects.get(id=teacher_id)
     if request.method == 'POST':
@@ -137,15 +184,77 @@ def delete_teacher(request, teacher_id):
 
 
 # Edit Class
+@login_required
+
 def edit_class(request, class_id):
     school_class = SchoolClass.objects.get(id=class_id)
-    form = ClassForm(request.POST or None, instance=school_class)
-    if form.is_valid():
-        form.save()
+
+    # ----------------- MAIN CLASS FORM -----------------
+    class_form = ClassForm(request.POST or None, instance=school_class)
+
+    # ----------------- STREAMS FORMSET -----------------
+    StreamFormSetForClass = modelformset_factory(
+        Stream,
+        form=StreamFormSet.form,  # use the same form as add_class
+        extra=1,
+        can_delete=True
+    )
+    stream_queryset = Stream.objects.filter(school_class=school_class)
+    stream_formset = StreamFormSetForClass(request.POST or None, queryset=stream_queryset)
+
+    # ----------------- SUBJECT-TEACHER ASSIGNMENT FORMSETS PER STREAM -----------------
+    StreamSubjectTeacherFormSet = modelformset_factory(
+        StreamSubjectTeacher,
+        form=StreamSubjectTeacherForm,
+        extra=1,
+        can_delete=True
+    )
+
+    stream_assignment_formsets = []
+    for stream in stream_queryset:
+        qs = StreamSubjectTeacher.objects.filter(stream=stream)
+        # ⚡ IMPORTANT: Add a unique prefix for each stream to avoid conflicts
+        fs = StreamSubjectTeacherFormSet(request.POST or None, queryset=qs, prefix=f'stream_{stream.id}')
+        stream_assignment_formsets.append((stream, fs))  # store tuple (stream, formset)
+
+    # ----------------- FORM VALIDATION -----------------
+    # Check all forms before saving
+    if class_form.is_valid() and stream_formset.is_valid() and all(fs.is_valid() for _, fs in stream_assignment_formsets):
+        # Save class
+        class_form.save()
+
+        # Save streams
+        stream_instances = stream_formset.save(commit=False)
+        for inst in stream_instances:
+            inst.school_class = school_class
+            inst.save()
+        # Delete removed streams
+        for inst in stream_formset.deleted_objects:
+            inst.delete()
+
+        # Save stream-subject-teacher assignments
+        for stream, fs in stream_assignment_formsets:
+            instances = fs.save(commit=False)
+            for inst in instances:
+                inst.stream = stream  # assign the correct stream
+                inst.save()
+            for inst in fs.deleted_objects:
+                inst.delete()
+
         return redirect('classes')
-    return render(request, 'add_form.html', {'form': form, 'title': 'Edit Class'})
+
+    return render(request, 'add_form.html', {
+        'form': class_form,
+        'formset': stream_formset,
+        'stream_assignment_formsets': stream_assignment_formsets,
+        'title': f'Edit Class: {school_class.name}',
+        'form_type': 'class',
+        'school_class': school_class  # pass the class for reference
+    })
 
 # Delete Class
+@login_required
+
 def delete_class(request, class_id):
     school_class = SchoolClass.objects.get(id=class_id)
     if request.method == 'POST':
@@ -155,6 +264,8 @@ def delete_class(request, class_id):
 
 
 # Edit Assignment
+@login_required
+
 def edit_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
     form = StreamSubjectTeacherForm(request.POST or None, instance=assignment)
@@ -164,6 +275,8 @@ def edit_assignment(request, assignment_id):
     return render(request, 'add_form.html', {'form': form, 'title': 'Edit Assignment'})
 
 # Delete Assignment
+@login_required
+
 def delete_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
     if request.method == 'POST':
@@ -173,6 +286,8 @@ def delete_assignment(request, assignment_id):
 
 
 # List Teachers
+@login_required
+
 def list_teachers(request):
     query = request.GET.get('q', '')
     teachers = Teacher.objects.filter(name__icontains=query) if query else Teacher.objects.all()
@@ -185,16 +300,40 @@ def list_teachers(request):
 
 
 # List Classes
+@login_required
 def list_classes(request):
     classes = SchoolClass.objects.all()
-    paginator = Paginator(classes, 10)
     page_number = request.GET.get('page')
+
+    # Build a structure: class -> streams -> subjects & teachers
+    class_data = []
+    for cls in classes:
+        streams_data = []
+        for stream in cls.streams.all():
+            assignments = StreamSubjectTeacher.objects.filter(stream=stream)
+            streams_data.append({
+                'stream': stream,
+                'assignments': assignments
+            })
+        class_data.append({
+            'class': cls,
+            'streams_data': streams_data
+        })
+
+    # Pagination
+    paginator = Paginator(class_data, 10)
     page_obj = paginator.get_page(page_number)
-    
-    return render(request, 'list_classes.html', {'classes': page_obj, 'page_obj': page_obj})
+
+    return render(request, 'list_classes.html', {
+        'class_data': page_obj,
+        'page_obj': page_obj
+    })
+
 
 
 # List Assignments
+@login_required
+
 def list_assignments(request):
     query = request.GET.get('q', '')
     assignments = StreamSubjectTeacher.objects.select_related('stream', 'subject', 'teacher')
@@ -209,7 +348,11 @@ def list_assignments(request):
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'list_assignments.html', {'assignments': page_obj, 'query': query, 'page_obj': page_obj})
+
+
 # Generate Timetables
+@login_required
+
 def generate_timetables(request):
     regenerate = request.GET.get('regenerate', '0') == '1'
 
@@ -325,28 +468,4 @@ def generate_timetables(request):
     return render(request, 'generated.html', {'timetable_data': timetable_data})
 
 
-#Download Timetable as PDF file
-def download_pdf(request):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="timetable.pdf"'
-    p = canvas.Canvas(response, pagesize=A4)
-
-    p.setFont("Helvetica-Bold", 16)
-    p.drawString(50, 800, "Generated School Timetable")
-
-    y = 770
-    from .models import Stream, StreamSubjectTeacher
-    for stream in Stream.objects.all():
-        p.setFont("Helvetica-Bold", 14)
-        p.drawString(50, y, f"{stream}")
-        y -= 20
-        for stt in StreamSubjectTeacher.objects.filter(stream=stream)[:5]:
-            p.setFont("Helvetica", 12)
-            p.drawString(60, y, f"{stt.subject.name} - {stt.teacher.name}")
-            y -= 15
-        y -= 20
-
-    p.showPage()
-    p.save()
-    return response
 

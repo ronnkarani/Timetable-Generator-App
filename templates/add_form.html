@@ -7,7 +7,7 @@
         {% csrf_token %}
 
         {% if form_type == 'teacher' %}
-            <p>👨‍🏫 Add a new teacher to the system.</p>
+            <p>👨‍🏫 Edit teacher info and assigned subjects/streams.</p>
             <div class="form-group">
                 <label for="{{ form.name.id_for_label }}">Full Name:</label>
                 {{ form.name }}
@@ -17,19 +17,13 @@
                 {{ form.teacher_id }}
             </div>
 
-        {% elif form_type == 'class' %}
-            <p>🏫 Add a new class and its streams below.</p>
-            <div class="form-group">
-                <label for="{{ form.name.id_for_label }}">Class Name:</label>
-                {{ form.name }}
-            </div>
-
             {% if formset %}
-                <h3>🧩 Streams</h3>
+                <h3>📚 Assigned Subjects & Streams</h3>
                 {{ formset.management_form }}
                 {% for f in formset %}
                     <div class="stream-form">
-                        {{ f.name.label_tag }} {{ f.name }}
+                        {{ f.stream.label_tag }} {{ f.stream }}
+                        {{ f.subject.label_tag }} {{ f.subject }}
                         {% if f.instance.pk %}
                             {{ f.DELETE }} Delete
                         {% endif %}
@@ -37,7 +31,52 @@
                 {% endfor %}
             {% endif %}
 
-        {% elif form_type == 'assignment' %}
+
+            {% elif form_type == 'class' %}
+            <p>🏫 Add/Edit a class and its streams below.</p>
+
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Class Name:</label>
+                {{ form.name }}
+            </div>
+
+            <!-- Streams -->
+            {% if formset %}
+            <h3>🧩 Streams</h3>
+            {{ formset.management_form }}
+            {% for f in formset %}
+                <div class="stream-form">
+                    {{ f.name.label_tag }} {{ f.name }}
+                    {% if f.instance.pk %}
+                        {{ f.DELETE }} Delete
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- Subjects & Teachers per Stream -->
+            {% if stream_assignment_formsets %}
+            <h3>📚 Subjects & Teachers per Stream</h3>
+            {% for stream, fs in stream_assignment_formsets %}
+                <h4>Stream: {{ stream.name }}</h4>
+                {{ fs.management_form }}
+                {% for f in fs %}
+                    <div class="assignment-form">
+                        {{ f.subject.label_tag }} {{ f.subject }}
+                        {{ f.teacher.label_tag }} {{ f.teacher }}
+                        {% if f.instance.pk %}
+                            {{ f.DELETE }} Delete
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <hr>
+            {% endfor %}
+            {% endif %}
+
+
+
+        
+            {% elif form_type == 'assignment' %}
             <p>🗂️ Assign a teacher to a subject and stream.</p>
             <div class="form-group">
                 <label for="{{ form.stream.id_for_label }}">Select Stream:</label>

@@ -20,3 +20,21 @@ document.addEventListener('click', (e) => {
     links.classList.remove('active');
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const userIcon = document.querySelector(".user-icon");
+  const dropdown = document.querySelector(".user-dropdown");
+
+  if (userIcon && dropdown) {
+    userIcon.addEventListener("click", () => {
+      dropdown.classList.toggle("show");
+    });
+
+    // Close dropdown if clicking outside
+    document.addEventListener("click", (e) => {
+      if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove("show");
+      }
+    });
+  }
+});

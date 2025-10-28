@@ -8,23 +8,53 @@
 
   {% if type == "teacher" %}
     <h2>👨‍🏫 {{ object.name }}</h2>
-    <p><strong>Subjects:</strong> 
+    <p><strong>Teacher ID:</strong> {{ object.teacher_id }}</p>
+
+    <h3>📚 Subjects & Streams</h3>
+    {% if object.streamsubjectteacher_set.all %}
+    <table>
+      <tr>
+        <th>Subject</th>
+        <th>Stream/Class</th>
+      </tr>
       {% for stt in object.streamsubjectteacher_set.all %}
-        {{ stt.subject.name }}{% if not forloop.last %}, {% endif %}
-      {% empty %}
-        N/A
+      <tr>
+        <td>{{ stt.subject.name }}</td>
+        <td>{{ stt.stream.school_class.name }}{{ stt.stream.name }}</td>
+      </tr>
       {% endfor %}
-    </p>
+    </table>
+    {% else %}
+      <p>N/A – No subjects assigned.</p>
+    {% endif %}
 
   {% elif type == "class" %}
     <h2>🏫 {{ object.name }}</h2>
-    <p><strong>Streams:</strong>
-      {% for stream in object.streams.all %}
-        {{ stream.name }}{% if not forloop.last %}, {% endif %}
-      {% empty %}
-        N/A
-      {% endfor %}
-    </p>
+    <h3>📌 Streams & Subjects</h3>
+    {% if stream_assignments %}
+        {% for stream, assignments in stream_assignments.items %}
+            <h4>Stream: {{ stream.name }}</h4>
+            {% if assignments %}
+                <table>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Teacher</th>
+                    </tr>
+                    {% for stt in assignments %}
+                        <tr>
+                            <td>{{ stt.subject.name }}</td>
+                            <td>{{ stt.teacher.name }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No subjects assigned for this stream.</p>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>No streams added yet.</p>
+    {% endif %}
+
 
   {% elif type == "assignment" %}
     <h2>📘 Assignment ID: {{ object.id }}</h2>

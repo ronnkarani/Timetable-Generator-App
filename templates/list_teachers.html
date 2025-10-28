@@ -2,10 +2,8 @@
 {% block content %}
 <h1>👨‍👨‍👧‍👦 Teachers</h1>
 
-<p>✅ List of all Teachers & the Subjects they teach.</p>
-<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}" class="btn-global"></i>👁️ View Teachers &  Subjects</a></p>
-<p>✅ To add new  Teachers <a href="{% url 'add_teacher' %}" class="btn-global">➕ Add Teacher</a></p>
-
+<p>✅ List of all Teachers & the Subjects they teach in each Stream.</p>
+<p>✅ To add new Teachers <a href="{% url 'add_teacher' %}" class="btn-global">➕ Add Teacher</a></p>
 
 <form method="get" class="search-form">
     <input type="text" name="q" placeholder="Search by stream, subject, or teacher..." value="{{ query|default:'' }}">
@@ -15,30 +13,44 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Subjects</th>
-        <th>Actions</th>
-
+    <th>Teacher ID</th>
+    <th>Subject</th>
+    <th>Stream/Class</th>
+    <th>Actions</th>
   </tr>
   {% for teacher in teachers %}
+    {% with stts=teacher.streamsubjectteacher_set.all %}
     <tr>
-      <td>{{ teacher.name }}</td>
-      <td>
-        {% for stt in teacher.streamsubjectteacher_set.all %}
-          {{ stt.subject.name }}{% if not forloop.last %}, {% endif %}
-        {% empty %}
-          N/A
-        {% endfor %}
-      </td>
-       <td>
+      <td rowspan="{{ stts|length|default:1 }}">{{ teacher.name }}</td>
+      <td rowspan="{{ stts|length|default:1 }}">{{ teacher.teacher_id }}</td>
+      {% if stts %}
+        <td>{{ stts.0.subject.name }}</td>
+        <td>{{ stts.0.stream.school_class.name }}{{ stts.0.stream.name }}</td>
+      {% else %}
+        <td>N/A</td>
+        <td>N/A</td>
+      {% endif %}
+      <td rowspan="{{ stts|length|default:1 }}">
         <a href="{% url 'view_teacher' teacher.id %}" class="action-btn view">👁️</a>
         <a href="{% url 'edit_teacher' teacher.id %}" class="action-btn edit">✏️</a>
         <a href="{% url 'delete_teacher' teacher.id %}" class="action-btn delete">🗑️</a>
       </td>
     </tr>
+
+    {% if stts %}
+      {% for stt in stts|slice:"1:" %}
+        <tr>
+          <td>{{ stt.subject.name }}</td>
+          <td>{{ stt.stream.school_class.name }}{{ stt.stream.name }}</td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
   {% empty %}
-    <tr><td colspan="2">No teachers found.</td></tr>
+    <tr><td colspan="5">No teachers found.</td></tr>
   {% endfor %}
 </table>
+
 <!-- Pagination -->
 {% if page_obj.has_other_pages %}
 <div class="pagination">

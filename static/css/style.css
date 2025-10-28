@@ -72,11 +72,178 @@ nav ul li a {
 }
 
 
+/* === User Dropdown === */
+.user-menu {
+  position: relative;
+  display: inline-block;
+  margin-left: 17px;
+  margin-right: 14px;
+}
+
+.user-icon {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.user-icon:hover {
+  transform: scale(1.1);
+}
+/* User dropdown like hamburger on all screens */
+.user-dropdown {
+  display: none; /* default hidden */
+  position: fixed; /* fixed to viewport instead of inline navbar */
+  top: 60px;      /* just below navbar height */
+  right: 0;       /* align to right */
+  width: 200px;   /* match hamburger menu width */
+  background: maroon;
+  color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 10000;
+  overflow: hidden;
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.user-dropdown.show {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.user-dropdown a,
+.user-dropdown p {
+  display: block;
+  padding: 10px 14px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.user-dropdown a:hover {
+  background: rgb(53, 1, 1);
+  color: white;
+}
+
+.user-dropdown p {
+  border-bottom: 1px solid #eee;
+  margin: 0;
+  font-weight: bold;
+}
+
+
+/* Responsive fix for small screens */
+@media (max-width: 768px) {
+  .user-menu {
+    position: static;
+  }
+  .user-dropdown {
+    position: fixed;
+    top: 60px; /* below navbar */
+    right: 0;
+    width: 200px;
+  }
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.profile-container h1 {
+  color: maroon;
+  margin-bottom: 20px;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.profile-avatar i {
+  font-size: 80px;
+  color: maroon;
+}
+
+.profile-details p {
+  margin: 6px 0;
+  font-weight: 500;
+  text-align: left;
+}
+
+.profile-details strong {
+  color: #444;
+}
+
+.profile-container .btn {
+  width: 100%;
+  background: maroon;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  transition: 0.3s ease;
+}
+
+.profile-container .btn:hover {
+  background: darkred;
+}
+
+.stream-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    align-items: center;
+}
+.stream-form select {
+    padding: 0.3rem;
+}
+
+.detail-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+.detail-container th, .detail-container td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+.detail-container h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+
 /* Hamburger menu */
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
+   margin-left: 7px; /* small extra spacing */
+  z-index: 3000;
 }
 
 .hamburger div {
@@ -370,6 +537,7 @@ td.break {
 td.subject {
   background: #dff0d8;
 }
+
 .controls {
   margin: 20px auto;
   text-align: center;
@@ -381,14 +549,16 @@ td.subject {
 
 .controls a,
 .controls button {
-  display: inline-block;
+  display: inline-flex;
+   align-items: center;
+  justify-content: center;
+  gap: 6px;
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
   text-decoration: none;
   font-size: 15px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -396,14 +566,12 @@ td.subject {
 /* Distinct button colors */
 .controls .btn-print {
   background: #333;
-}
-
-.controls a[href*="download_pdf"] {
-  background: #28a745; /* Green */
+  color: white  !important;
 }
 
 .controls a[href*="regenerate"] {
-  background: #ff9800; /* Orange */
+  background: #28a745;
+  color: white;
 }
 
 /* Hover effects */
@@ -642,6 +810,12 @@ footer {
     text-decoration: none;
     font-weight: bold;
     display: block;
+  }
+
+  nav ul li a:hover {
+    background: #800000; /* dark maroon */
+    color: #fff;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   nav ul {

@@ -2,49 +2,55 @@
 {% block content %}
 <h1>💼 Classes</h1>
 
-<p>✅ List of all Classes and their Streams.</p>
-<p>✅ To view subjects taught in each stream <a href="{% url 'assignments' %}" class="btn-global"></i>👁️ View Teachers &  Subjects</a></p>
-<p>✅ Add new Classes &  their Streams<a href="{% url 'add_class' %}" class="btn-global">➕ Add Class</a> </p>
- 
+<p>✅ Grouped view of Classes, Streams, Subjects & Teachers.</p>
+<p>✅ Add new Classes & their Streams <a href="{% url 'add_class' %}" class="btn-global">➕ Add Class</a></p>
 
-<table>
-  <tr>
-    <th>Class</th>
-    <th>Streams</th>
-        <th>Actions</th>
+{% for item in class_data %}
+  <div class="class-group">
+    <h2>🏫 {{ item.class.name }}</h2>
 
-  </tr>
-  {% for cls in classes %}
-    <tr>
-      <td>{{ cls.name }}</td>
-      <td>
-{% for stream in cls.streams.all %}
-    {{ stream.name }}{% if not forloop.last %}, {% endif %}
-{% empty %}
-    N/A
+    {% if item.streams_data %}
+      {% for sd in item.streams_data %}
+        <h3>📌 Stream: {{ sd.stream.name }}</h3>
+        {% if sd.assignments %}
+          <table>
+            <tr>
+              <th>Subject</th>
+              <th>Teacher</th>
+            </tr>
+            {% for stt in sd.assignments %}
+              <tr>
+                <td>{{ stt.subject.name }}</td>
+                <td>{{ stt.teacher.name }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No subjects assigned for this stream.</p>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p>No streams added yet.</p>
+    {% endif %}
+
+    <div class="actions">
+      <a href="{% url 'view_class' item.class.id %}" class="action-btn view">👁️ View</a>
+      <a href="{% url 'edit_class' item.class.id %}" class="action-btn edit">✏️ Edit</a>
+      <a href="{% url 'delete_class' item.class.id %}" class="action-btn delete">🗑️ Delete</a>
+    </div>
+  </div>
+  <hr>
 {% endfor %}
-</td>
-<td>
-  <a href="{% url 'view_class' cls.id %}" class="action-btn view">👁️</a>
-  <a href="{% url 'edit_class' cls.id %}" class="action-btn edit">✏️</a>
-  <a href="{% url 'delete_class' cls.id %}" class="action-btn delete">🗑️</a>
-</td>
 
-
-    </tr>
-  {% endfor %}
-</table>
 <!-- Pagination -->
 {% if page_obj.has_other_pages %}
 <div class="pagination">
   {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">&laquo; Prev</a>
+    <a href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>
   {% endif %}
-
   <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-
   {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next &raquo;</a>
+    <a href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
   {% endif %}
 </div>
 {% endif %}
