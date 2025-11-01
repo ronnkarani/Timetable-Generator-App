@@ -1,0 +1,67 @@
+{% extends 'pages/base_pages.html' %}
+{% load static %}
+
+{% block title %}Home | Timetable Generator{% endblock %}
+
+{% block hero %}
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Empower Your School with Smart Timetables</h1>
+    <p>Create, manage, and print school timetables seamlessly with our automated system.</p>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="btn-hero">Go to Dashboard</a>
+    {% else %}
+      <a href="{% url 'login' %}" class="btn-hero">Get Started</a>
+    {% endif %}
+    <a href="#pricing" class="btn-outline">Learn More</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<!-- ===== PRICING SECTION ===== -->
+<section id="pricing" class="pricing-section">
+  <h2>Choose Your Plan</h2>
+  <p class="pricing-subtitle">Flexible options for every institution — from small schools to large academies.</p>
+
+  <div class="pricing-cards">
+    <!-- Basic -->
+    <div class="pricing-card basic">
+      <h3>Basic</h3>
+      <p class="price">Free</p>
+      <ul>
+        <li>Generate basic timetables</li>
+        <li>Up to 2 streams</li>
+        <li>Print and export to PDF</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Start Free</a>
+    </div>
+
+    <!-- Pro -->
+    <div class="pricing-card pro">
+      <h3>Pro</h3>
+      <p class="price">KSh 1,499 / month</p>
+      <ul>
+        <li>Unlimited classes and teachers</li>
+        <li>Auto conflict detection</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Upgrade</a>
+    </div>
+
+    <!-- Max -->
+    <div class="pricing-card max">
+      <h3>Max</h3>
+      <p class="price">KSh 2,999 / month</p>
+      <ul>
+        <li>All Pro features</li>
+        <li>Multi-school support</li>
+        <li>Dedicated dashboard insights</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Get Max</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from datetime import time
-from .models import Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass, TimeSlot
+from .models import Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass, TimeSlot, Timetable
 from .forms import TeacherForm, ClassForm, SubjectForm, StreamSubjectTeacherForm, StreamFormSet
 from datetime import datetime, timedelta
 from django.db.models import Q
@@ -11,12 +11,76 @@ import random
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
+from accounts.models import User, School
+
+# Root   Redirect
+def root_redirect(request):
+    """Show Home page as default landing page for all users."""
+    return render(request, 'pages/home.html')
+
+
+def home(request):
+    return render(request, 'pages/home.html')
+
+def about(request):
+    return render(request, 'pages/about.html')
+
+def services(request):
+    return render(request, 'pages/services.html')
+
+def faqs(request):
+    return render(request, 'pages/faqs.html')
+
+def contact(request):
+    return render(request, 'pages/contact.html')
 
 
 # Dashboard page
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    user = request.user
+
+    context = {}
+
+    if user.is_superuser or user.role == 'superadmin':
+        # Show all schools and their admins
+        schools = School.objects.all()
+        school_admins = User.objects.filter(role='admin')
+        timetables = Timetable.objects.all()
+        context.update({
+            'is_superadmin': True,
+            'schools': schools,
+            'school_admins': school_admins,
+            'timetables': timetables,
+        })
+    elif user.role == 'admin':
+        # Show the current school data
+        school = user.school
+        teachers = Teacher.objects.filter(
+            streamsubjectteacher__stream__school_class__school=school
+        ).distinct()
+        subjects = Subject.objects.all()
+        classes = SchoolClass.objects.all()
+        streams = Stream.objects.all()
+        assignments = StreamSubjectTeacher.objects.all()
+        timetables = Timetable.objects.filter(school=school)
+        context.update({
+            'is_admin': True,
+            'school': school,
+            'teachers': teachers,
+            'subjects': subjects,
+            'classes': classes,
+            'streams': streams,
+            'assignments': assignments,
+            'timetables': timetables,
+        })
+    else:
+        # Not logged in or placeholder
+        context.update({
+            'is_guest': True,
+        })
+
+    return render(request, 'dashboard.html', context)
 
 
 # Add Teacher
@@ -35,7 +99,6 @@ def add_teacher(request):
 
 # Add Class with inline Streams
 @login_required
-
 def add_class(request):
     if request.method == 'POST':
         class_form = ClassForm(request.POST)
@@ -62,7 +125,6 @@ def add_class(request):
 
 # Add Subject  
 @login_required
- 
 def add_subject(request):
     form = SubjectForm(request.POST or None)
     if form.is_valid():
@@ -77,7 +139,6 @@ def add_subject(request):
 
 # Add Stream Subject Teacher Assignment
 @login_required
-
 def add_stream_subject_teacher(request):
     from .forms import StreamSubjectTeacherForm
     form = StreamSubjectTeacherForm(request.POST or None)
@@ -126,7 +187,6 @@ def view_class(request, class_id):
 
 
 @login_required
-
 def view_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
     return render(request, 'view_detail.html', {
@@ -140,7 +200,6 @@ def view_assignment(request, assignment_id):
 
 # Edit Teacher
 @login_required
-
 def edit_teacher(request, teacher_id):
     teacher = Teacher.objects.get(id=teacher_id)
     TeacherAssignmentFormSet = modelformset_factory(
@@ -174,7 +233,6 @@ def edit_teacher(request, teacher_id):
 
 # Delete Teacher
 @login_required
-
 def delete_teacher(request, teacher_id):
     teacher = Teacher.objects.get(id=teacher_id)
     if request.method == 'POST':
@@ -185,7 +243,6 @@ def delete_teacher(request, teacher_id):
 
 # Edit Class
 @login_required
-
 def edit_class(request, class_id):
     school_class = SchoolClass.objects.get(id=class_id)
 
@@ -254,7 +311,6 @@ def edit_class(request, class_id):
 
 # Delete Class
 @login_required
-
 def delete_class(request, class_id):
     school_class = SchoolClass.objects.get(id=class_id)
     if request.method == 'POST':
@@ -265,7 +321,6 @@ def delete_class(request, class_id):
 
 # Edit Assignment
 @login_required
-
 def edit_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
     form = StreamSubjectTeacherForm(request.POST or None, instance=assignment)
@@ -276,7 +331,6 @@ def edit_assignment(request, assignment_id):
 
 # Delete Assignment
 @login_required
-
 def delete_assignment(request, assignment_id):
     assignment = StreamSubjectTeacher.objects.get(id=assignment_id)
     if request.method == 'POST':
@@ -287,7 +341,6 @@ def delete_assignment(request, assignment_id):
 
 # List Teachers
 @login_required
-
 def list_teachers(request):
     query = request.GET.get('q', '')
     teachers = Teacher.objects.filter(name__icontains=query) if query else Teacher.objects.all()
@@ -330,10 +383,8 @@ def list_classes(request):
     })
 
 
-
 # List Assignments
 @login_required
-
 def list_assignments(request):
     query = request.GET.get('q', '')
     assignments = StreamSubjectTeacher.objects.select_related('stream', 'subject', 'teacher')
@@ -352,7 +403,6 @@ def list_assignments(request):
 
 # Generate Timetables
 @login_required
-
 def generate_timetables(request):
     regenerate = request.GET.get('regenerate', '0') == '1'
 
@@ -466,6 +516,7 @@ def generate_timetables(request):
                 subject_index += 1
 
     return render(request, 'generated.html', {'timetable_data': timetable_data})
+
 
 
 

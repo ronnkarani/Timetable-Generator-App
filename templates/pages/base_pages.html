@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Page | Timetable Generator{% endblock %}</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="logo">
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}"><i class="fas fa-school"></i> Timetable Generator</a>
+    {% else %}
+      <a href="{% url 'home' %}"><i class="fas fa-school"></i> Timetable Generator</a>
+    {% endif %}
+  </div>
+
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'about' %}" class="active">About</a></li>
+    <li><a href="{% url 'services' %}">Services</a></li>
+    <li><a href="{% url 'faqs' %}">FAQs</a></li>
+    <li><a href="{% url 'contact' %}">Contact</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
+    {% endif %}
+  </ul>
+
+  <!-- User dropdown -->
+  <div class="user-menu">
+    <i class="fas fa-user-circle user-icon"></i>
+    <div class="user-dropdown">
+      {% if user.is_authenticated %}
+        <p>👋 {{ user.username }}</p>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Mobile Menu Toggle -->
+  <div class="hamburger" id="menu-toggle">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+{% block hero %}
+<section class="hero-section" style="background-image: url('{% static 'images/hero-bg.png' %}');">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Welcome to Timetable Generator</h1>
+    <p>Automate your school timetables and save time.</p>
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="btn-hero">Go to Dashboard</a>
+    {% else %}
+      <a href="{% url 'login' %}" class="btn-hero">Get Started</a>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page-content">
+  {% block content %}{% endblock %}
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-col">
+      <h4>About</h4>
+      <p>Timetable Generator simplifies school management through automated scheduling tools — saving time and boosting productivity.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <div class="socials">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {{ now.year }} Timetable Generator | Designed with ❤️ by Ronny from SWFT LABS</p>
+  </div>
+</footer>
+
+<script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>

@@ -3,53 +3,100 @@
 {% block title %}Timetable Generator{% endblock %}
 
 {% block content %}
-<h1>👤 Admin Dashboard</h1>
-<p>✅ Welcome to the School Timetable Generator Dashboard. </p>
+<div class="dashboard-wrapper">
+  
+  {% if is_superadmin %}
+  <div class="dashboard-header superadmin">
+    <h1>👑 Super Admin Dashboard</h1>
+    <p>Manage schools, admins, and timetables system-wide.</p>
+  </div>
+
+  
+
+  <div class="dashboard-section">
+    <h2>Schools in the System</h2>
+    <div class="data-card-list">
+      {% for school in schools %}
+      <div class="data-card">
+        <h3>{{ school.name }}</h3>
+        <p><strong>Admins:</strong>
+          {% for admin in school_admins %}
+            {% if admin.school == school %}
+              {{ admin.username }}
+            {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+      {% empty %}
+      <p class="empty">No schools yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="dashboard-section">
+    <h2>All Timetables</h2>
+    <div class="data-card-list">
+      {% for t in timetables %}
+      <div class="data-card small">
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.school.name }}</p>
+      </div>
+      {% empty %}
+      <p class="empty">No timetables yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="controls">
+    <a href="{% url 'create_school_admin' %}" class="btn-global"><i class="fas fa-user-plus"></i> Create School Admin</a>
+  </div>
+
+  {% elif is_admin %}
+  <div class="dashboard-header admin">
+    <h1>👤 {{ school.name }} Admin Dashboard</h1>
+    <p>Manage your school's teachers, classes, and timetables below.</p>
+    <p>✅ Welcome to the School Timetable Generator Dashboard. </p>
 <p>✅ Use the links below to add teachers, classes, subjects & assign subjects to class streams &  teachers.</p>
 <p>✅ After adding all the necessary data,  timetables are generated automatically for each class stream.</p>
+  </div>
 
-
-<div class="dashboard-links">
-  <h2>Add Data</h2>
-  <p>📌 Start by adding Teachers, Classes &  their  Streams, Subjects taught in each Stream, & assigning Subjects to Class Streams & Teachers teaching  each  Subject.</p>
-  <div class="card-container">
-  <div class="card">
-    <a href="{% url 'add_teacher' %}"><i class="fas fa-user"></i> Add Teachers</a>
-  </div>
-  <div class="card">
-    <a href="{% url 'add_class' %}"><i class="fas fa-chalkboard"></i> Add Class & Streams</a>
-  </div>
-  <div class="card">
-    <a href="{% url 'add_subject' %}"><i class="fas fa-book"></i> Add Subjects</a>
-  </div>
-  <div class="card">
-    <a href="{% url 'add_assignment' %}"><i class="fas fa-tasks"></i> Add Stream Subject Teacher</a>
-  </div>
-  </div>
+  <div class="dashboard-links">
+    <h2>Quick Actions</h2>
+    <p>📌 Start by adding Teachers, Classes &  their  Streams, Subjects taught in each Stream, & assigning Subjects to Class Streams & Teachers teaching  each  Subject.</p>
+    <div class="card-container">
+      <div class="card"><a href="{% url 'add_teacher' %}"><i class="fas fa-user"></i> Add Teachers</a></div>
+      <div class="card"><a href="{% url 'add_class' %}"><i class="fas fa-chalkboard"></i> Add Class & Streams</a></div>
+      <div class="card"><a href="{% url 'add_subject' %}"><i class="fas fa-book"></i> Add Subjects</a></div>
+      <div class="card"><a href="{% url 'add_assignment' %}"><i class="fas fa-tasks"></i> Add Stream-Subject-Teacher</a></div>
+    </div>
     <p>📌 Ensure to add all necessary data correctly before proceeding to view or Generate Timetables.</p>
+  </div>
 
+  <div class="dashboard-links">
     <h2>View Data</h2>
     <p>📌 After adding data, you can view the added Teachers, Classes, Subjects &  their  assignments using the links below, to ensure that everything is  correct</p>
     <div class="card-container">
-      <div class="card">
-        <a href="{% url 'teachers' %}"><i class="fas fa-user"></i> View Teachers</a>
-      </div>
-      <div class="card">
-        <a href="{% url 'classes' %}"><i class="fas fa-chalkboard"></i> View Classes</a>
-      </div>
-      <div class="card">
-        <a href="{% url 'assignments' %}"><i class="fas fa-tasks"></i> View Teachers & Subjects</a>
-      </div>
-      
-
+      <div class="card"><a href="{% url 'teachers' %}"><i class="fas fa-eye"></i> View Teachers</a></div>
+      <div class="card"><a href="{% url 'classes' %}"><i class="fas fa-eye"></i> View Classes</a></div>
+      <div class="card"><a href="{% url 'assignments' %}"><i class="fas fa-eye"></i> View Subjects & Teachers</a></div>
+    </div>
   </div>
-  <h2>Generate Timetables</h2>
-      <p>📌 Once all data has been added and verified, you can proceed to Generate Timetables for each class stream using the link below.</p>
-  <div class="card highlight-card">
+
+  <div class="dashboard-links">
+    <h2>Generate Timetables</h2>
+    <p>📌 Once all data has been added and verified, you can proceed to Generate Timetables for each class stream using the link below.</p>
+    <div class="card highlight-card">
       <a href="{% url 'generate_timetables' %}">
         <i class="fas fa-calendar-alt"></i> Generate Timetables
       </a>
     </div>
-</div>
+  </div>
 
+  {% else %}
+  <div class="dashboard-header guest">
+    <h1>Welcome Guest!</h1>
+    <p>Please log in to access your school’s dashboard.</p>
+  </div>
+  {% endif %}
+</div>
 {% endblock %}

@@ -1,11 +1,20 @@
 from django.db import models
+from accounts.models import School
 
+class Timetable(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.school.name}"
 class SchoolClass(models.Model):
     """E.g. Class 1, Class 2, ..."""
+    school = models.ForeignKey('accounts.School', on_delete=models.CASCADE, related_name='classes',default=1)
     name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.school.name})"
 
 
 class Stream(models.Model):

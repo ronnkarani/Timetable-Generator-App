@@ -823,3 +823,110 @@ footer {
 }
 
 }
+
+
+/* === DASHBOARD STYLING === */
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.dashboard-header {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.dashboard-header.superadmin {
+  background: linear-gradient(135deg, maroon, #8b0000);
+}
+
+.dashboard-header.admin {
+  background: linear-gradient(135deg, #2e8b57, #228b22);
+}
+
+.dashboard-header.guest {
+  background: linear-gradient(135deg, #555, #333);
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Section wrappers */
+.dashboard-section {
+  margin-bottom: 40px;
+}
+
+.dashboard-section h2 {
+  background: maroon;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Cards for data overview */
+.data-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.data-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.data-card h3 {
+  color: maroon;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.data-card p {
+  font-size: 14px;
+  color: #333;
+}
+
+.data-card.small {
+  padding: 15px;
+  text-align: center;
+}
+
+.empty {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 10px;
+}
+
+/* Subtle hover effects for global buttons inside dashboard */
+.dashboard-wrapper .btn-global {
+  background: maroon;
+  color: white;
+  border-radius: 8px;
+}
+
+.dashboard-wrapper .btn-global:hover {
+  background: darkred;
+}
+
+

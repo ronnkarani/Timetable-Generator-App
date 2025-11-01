@@ -13,17 +13,29 @@
 <body>
   <nav>
   <div class="logo">
-    <a href="{% url 'dashboard' %}">
+    
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">
       <i class="fas fa-school"></i> School Timetable Generator
     </a>
+      {% else %}
+        <a href="">
+      <i class="fas fa-school"></i> School Timetable Generator
+    </a>
+      {% endif %}
   </div>
 
   <ul id="nav-links">
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'teachers' %}">Teachers</a></li>
-    <li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
-    {% endif %}
-  </ul>
+  <li><a href="{% url 'home' %}">Home</a></li>
+  <li><a href="{% url 'about' %}">About</a></li>
+  <li><a href="{% url 'services' %}">Services</a></li>
+  <li><a href="{% url 'faqs' %}">FAQs</a></li>
+  <li><a href="{% url 'contact' %}">Contact</a></li>
+  {% if user.is_authenticated %}
+  <li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
+  {% endif %}
+</ul>
+
 
   <!-- 👇 User dropdown menu inside navbar -->
   <div class="user-menu">
@@ -35,7 +47,6 @@
         <a href="{% url 'logout' %}">Logout</a>
       {% else %}
         <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'signup' %}">Sign Up</a>
       {% endif %}
     </div>
   </div>
