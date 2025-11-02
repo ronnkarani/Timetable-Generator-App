@@ -28,7 +28,6 @@
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'about' %}" class="active">About</a></li>
     <li><a href="{% url 'services' %}">Services</a></li>
-    <li><a href="{% url 'faqs' %}">FAQs</a></li>
     <li><a href="{% url 'contact' %}">Contact</a></li>
     {% if user.is_authenticated %}
       <li><a href="{% url 'generate_timetables' %}">Timetables</a></li>
@@ -59,15 +58,19 @@
 
 <!-- ===== HERO SECTION ===== -->
 {% block hero %}
-<section class="hero-section" style="background-image: url('{% static 'images/hero-bg.png' %}');">
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section">
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h1>Welcome to Timetable Generator</h1>
-    <p>Automate your school timetables and save time.</p>
+    <h1> Empower your School   with our Smart Timetable Generator. </h1>
+    <p>Create, Manage & Print School Timetables  seamlessly with our Automated System</p>
+
     {% if user.is_authenticated %}
       <a href="{% url 'dashboard' %}" class="btn-hero">Go to Dashboard</a>
-    {% else %}
+    
       <a href="{% url 'login' %}" class="btn-hero">Get Started</a>
+    {% else %}
+      <a href="{% url 'about' %}" class="btn-outline">Learn More</a>
     {% endif %}
   </div>
 </section>

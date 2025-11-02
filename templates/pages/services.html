@@ -1,23 +1,215 @@
 {% extends 'pages/base_pages.html' %}
+{% load static %}
+
 {% block title %}Services | Timetable Generator{% endblock %}
 
-{% block hero %}
-<section class="hero-section">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1>Our Services</h1>
-    <p>We provide intelligent timetable automation tools for institutions.</p>
-  </div>
-</section>
-{% endblock %}
 
 {% block content %}
-<ul>
-  <li>Automatic Timetable Generation</li>
-  <li>Class & Teacher Management</li>
-  <li>Printable Timetables</li>
-  <li>Multi-user Access</li>
-  <li>Conflict Detection & Resolution</li>
-  <li>Customizable Scheduling Templates</li>
-</ul>
+<!-- ===== SERVICES SECTION ===== -->
+<section id="pricing" class="pricing-section">
+  <h2>OUR SERVICES</h2>
+  <h4>Choose you plan</h4>
+  <p class="pricing-subtitle">Simple, Transparent Pricing & Flexible options for every school — from small schools to large academies. <br> Choose the perfect plan for your institution. From small schools to large universities, TimetableMaster offers tailored solutions for all educational needs.</p>
+
+  <div class="pricing-cards">
+    <!-- Basic -->
+    <div class="pricing-card basic">
+      <h3>Basic</h3>
+      <p class="price">Free</p>
+      <ul>
+        <li>Generate basic timetables</li>
+        <li>Up to 2 streams</li>
+        <li>Print and export to PDF</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Start Free</a>
+    </div>
+
+    <!-- Pro -->
+    <div class="pricing-card pro">
+      <h3>Pro</h3>
+      <p class="price">KSh 1,499 / month</p>
+      <ul>
+        <li>Unlimited classes and teachers</li>
+        <li>Auto conflict detection</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Upgrade</a>
+    </div>
+
+    <!-- Max -->
+    <div class="pricing-card max">
+      <h3>Max</h3>
+      <p class="price">KSh 2,999 / month</p>
+      <ul>
+        <li>All Pro features</li>
+        <li>Multi-school support</li>
+        <li>Dedicated dashboard insights</li>
+      </ul>
+      <a href="{% url 'login' %}" class="btn-global">Get Max</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ SECTION ===== -->
+<section class="faq-section">
+  <div class="faq-header">
+    <h2>FREQUENTLY ASKED QUESTIONS</h2>
+    <h4>Create Your Timetable in 7 Simple Steps</h4>
+    <p>
+      Have Questions? We've Got You Covered. Find answers to common questions about
+      TimetableMaster and how it can help streamline your scheduling process.
+    </p>
+  </div>
+
+  <!-- ===== Getting Started ===== -->
+  <div class="faq-category">
+    <h3>Getting Started</h3>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Is TimetableMaster free to use?
+        <span class="faq-arrow">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>
+          Yes! TimetableMaster offers a free plan with core scheduling tools.
+          You can upgrade for advanced features anytime.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do I need to install anything on my computer?
+        <span class="faq-arrow">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>
+          No installation needed! TimetableMaster runs directly in your browser.
+          You can access it from any internet-connected device.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How secure is my data?
+        <span class="faq-arrow">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>
+          Your data is encrypted and stored securely on our servers.
+          We use HTTPS and advanced access controls for protection.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Other Categories (Shortened) ===== -->
+  <div class="faq-category">
+    <h3>Features & Functionality</h3>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How do I handle different class subjects and teachers?
+        <span class="faq-arrow">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>
+          Simply add subjects and assign teachers during setup.
+          The system automatically avoids conflicts.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-container">
+    <p>Not satisfied! Check out more FAQs</p>
+    <a href="{% url 'login' %}" class="cta-button">More FAQs</a>
+  </div>
+
+  <!-- ===== Contact Support ===== -->
+  <div class="contact-support">
+    <h3>Still Have Questions?</h3>
+    <p>Can't find what you're looking for? Our support team is here to help.</p>
+    <a href="{% url 'contact' %}" class="contact-btn">Contact Support</a>
+  </div>
+</section>
+
+<!-- ====== TESTIMONIAL SECTION ====== -->
+<section class="testimonial-section">
+  <div class="testimonial-header">
+    <h2>WHAT OUR CLIENTS SAY</h2>
+    <h4>Some Testimonials about our services.</h4>
+    <p>Real feedback from schools and administrators using TimetableMaster to simplify their scheduling.</p>
+  </div>
+
+  <div class="testimonial-slider">
+    <div class="testimonial-track">
+
+      <!-- Testimonial 1 -->
+      <div class="testimonial-item">
+        <div class="testimonial-top">
+          <img src="{% static 'images/user3.jpg' %}" alt="User 1">
+          <div>
+            <h4>Mary Wanjiku</h4>
+            <p>Principal, Green Valley School</p>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          “TimetableMaster has completely transformed our scheduling. What used to take hours now takes just a few clicks!”
+        </p>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-item">
+        <div class="testimonial-top">
+          <img src="{% static 'images/user3.jpg' %}" alt="User 2">
+          <div>
+            <h4>James Otieno</h4>
+            <p>Head Teacher, Sunrise Academy</p>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          “We love the automation! It saves so much time, and the conflict detection feature is brilliant.”
+        </p>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-item">
+        <div class="testimonial-top">
+          <img src="{% static 'images/user2.jpg' %}" alt="User 3">
+          <div>
+            <h4>Lucy Mwangi</h4>
+            <p>Administrator, Hillcrest High</p>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          “Our teachers find it so easy to view and edit their schedules. The interface is intuitive and responsive.”
+        </p>
+      </div>
+
+      <!-- Testimonial 4 -->
+      <div class="testimonial-item">
+        <div class="testimonial-top">
+          <img src="{% static 'images/user3.jpg' %}" alt="User 4">
+          <div>
+            <h4>Samuel Kariuki</h4>
+            <p>Deputy Principal, St. Anne’s Academy</p>
+          </div>
+        </div>
+        <p class="testimonial-text">
+          “This platform has improved communication across our staff. Everything is in one place now.”
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="testimonial-controls">
+    <button id="prevBtn">&#10094;</button>
+    <button id="nextBtn">&#10095;</button>
+  </div>
+</section>
 {% endblock %}

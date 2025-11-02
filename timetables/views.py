@@ -28,9 +28,6 @@ def about(request):
 def services(request):
     return render(request, 'pages/services.html')
 
-def faqs(request):
-    return render(request, 'pages/faqs.html')
-
 def contact(request):
     return render(request, 'pages/contact.html')
 

@@ -1,23 +1,167 @@
 {% extends 'pages/base_pages.html' %}
+{% load static %}
+
 {% block title %}About | Timetable Generator{% endblock %}
 
-{% block hero %}
-<section class="hero-section">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1>About Us</h1>
-    <p>We simplify school scheduling with smart automation tools.</p>
+{% block content %}
+  <!-- ===== ABOUT SECTION ===== -->
+<section id="pricing" class="pricing-section">
+  <h2>ABOUT US</h2>
+  <h4>Revolutionizing School Scheduling with Automation</h4>
+  <p class="pricing-subtitle">Our Intelligent Timetable Generator uses automation to create perfect, conflict-free school schedules in minutes. Automate complex tasks, save hours, and optimize your school's resources.<br> Timetable Generator simplifies school management through automated scheduling tools — saving time and boosting productivity.</p>
+
+  <div class="pricing-cards">
+    <!-- AI-Powered Scheduling -->
+    <div class="pricing-card">
+      <i class="fas fa-robot feature-icon"></i>
+      <h3>AI-Powered Scheduling</h3>
+      <p>Our intelligent engine automatically detects conflicts, optimizes class arrangements, and ensures a smooth timetable without the guesswork.</p>
+      <ul>
+        <li>Automatic conflict detection</li>
+        <li>Smart resource optimization</li>
+        <li>Instant schedule generation</li>
+      </ul>
+    </div>
+
+    <!-- Smart Substitute Management -->
+    <div class="pricing-card">
+      <i class="fas fa-user-tie feature-icon"></i>
+      <h3>Smart Substitute Management</h3>
+      <p>Effortlessly handle teacher absences with intelligent substitute recommendations. Reduce administrative time by 80% while maintaining learning continuity.</p>
+      <ul>
+        <li>Intelligent teacher matching</li>
+        <li>Real-time schedule updates</li>
+        <li>Comprehensive tracking</li>
+      </ul>
+    </div>
+
+    <!-- Easy Sharing & Collaboration -->
+    <div class="pricing-card">
+      <i class="fas fa-share-alt feature-icon"></i>
+      <h3>Easy Sharing & Collaboration</h3>
+      <p>Instantly share final schedules with teachers, students, or parents online. Everyone stays updated in real time—no more outdated PDFs or manual handouts.</p>
+      <ul>
+        <li>Real-time updates</li>
+        <li>Multiple sharing formats</li>
+        <li>Role-based access</li>
+      </ul>
+    </div>
+
+    <!-- Quick Editing & Regeneration -->
+    <div class="pricing-card">
+      <i class="fas fa-edit feature-icon"></i>
+      <h3>Quick Editing & Regeneration</h3>
+      <p>Need to switch a class or change a time slot? Use our drag-and-drop editor to rearrange your timetable, then regenerate for a fresh, conflict-free version.</p>
+      <ul>
+        <li>Drag-and-drop interface</li>
+        <li>Instant regeneration</li>
+        <li>Change tracking</li>
+      </ul>
+    </div>
+
+    <!-- Access Anywhere -->
+    <div class="pricing-card">
+      <i class="fas fa-cloud feature-icon"></i>
+      <h3>Access Anywhere</h3>
+      <p>TimetableMaster runs entirely online. No downloads or installations needed—just an internet connection. Perfect for teachers and students on the go.</p>
+      <ul>
+        <li>Browser-based access</li>
+        <li>Mobile responsive</li>
+        <li>Cloud storage</li>
+      </ul>
+    </div>
+
+    <!-- Security & Compliance -->
+    <div class="pricing-card">
+      <i class="fas fa-shield-alt feature-icon"></i>
+      <h3>Security & Compliance</h3>
+      <p>Your data is protected with role-based access controls and comprehensive audit trails. We ensure full compliance with educational regulations and privacy standards.</p>
+      <ul>
+        <li>Role-based access control</li>
+        <li>Data privacy protection</li>
+        <li>Compliance-ready</li>
+      </ul>
+    </div>
   </div>
 </section>
-{% endblock %}
 
-{% block content %}
-  <h2>Our Mission</h2>
-  <p>To make academic planning easier, faster, and more efficient for schools of all sizes.</p>
-  <h2>Why Choose Us?</h2>
-  <ul>
-    <li>Easy-to-use interface</li>
-    <li>Reliable timetable automation</li>
-    <li>Supports multiple classes and teachers</li>
-  </ul>
+<!-- ===== HOW IT WORKS SECTION ===== -->
+<section class="how-it-works">
+  <h2 class="section-title">HOW IT WORKS</h2>
+  <h2 class="section-subtitle">Create Your Timetable in 7 Simple Steps</h2>
+  <p class="section-description">
+    Follow these simple steps to generate your perfect, conflict-free schedule.
+    Our system handles the heavy lifting, so you can focus on delivering great education.
+  </p>
+
+  <div class="steps-container">
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-pencil-alt"></i></div>
+      <div class="step-content">
+        <h5>STEP 1</h5>
+        <h3>Enter Your Details</h3>
+        <p>Add classes, teachers, and time slots easily with our smart interface.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+      <div class="step-content">
+        <h5>STEP 2</h5>
+        <h3>Verify Inputs</h3>
+        <p>Our validation tool checks for missing data or conflicts instantly.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-magic"></i></div>
+      <div class="step-content">
+        <h5>STEP 3</h5>
+        <h3>Generate Automatically</h3>
+        <p>Let the system create an optimized timetable for all classes.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-eye"></i></div>
+      <div class="step-content">
+        <h5>STEP 4</h5>
+        <h3>Preview Results</h3>
+        <p>See your timetable visually before finalizing it.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-edit"></i></div>
+      <div class="step-content">
+        <h5>STEP 5</h5>
+        <h3>Adjust Easily</h3>
+        <p>Make quick edits using drag-and-drop adjustments.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-share-alt"></i></div>
+      <div class="step-content">
+        <h5>STEP 6</h5>
+        <h3>Share Instantly</h3>
+        <p>Send schedules to teachers, students, and parents with one click.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-icon"><i class="fas fa-print"></i></div>
+      <div class="step-content">
+        <h5>STEP 7</h5>
+        <h3>Download or Print</h3>
+        <p>Export your timetable as PDF or print directly from your dashboard.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-container">
+    <p>Ready to create your first timetable?</p>
+    <a href="{% url 'login' %}" class="cta-button">Try Now for Free</a>
+  </div>
+</section>
 {% endblock %}
