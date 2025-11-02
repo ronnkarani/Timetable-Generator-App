@@ -1,6 +1,65 @@
 from django.db import models
 from accounts.models import School
 
+# ===== HOW IT WORKS =====
+class HowItWorksStep(models.Model):
+    step_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    icon_class = models.CharField(max_length=50, help_text="FontAwesome icon class")
+
+    class Meta:
+        ordering = ['step_number']
+
+    def __str__(self):
+        return f"Step {self.step_number} - {self.title}"
+
+
+# ===== SERVICES =====
+class ServicePlan(models.Model):
+    PLAN_CHOICES = [
+        ('basic', 'Basic'),
+        ('pro', 'Pro'),
+        ('max', 'Max'),
+    ]
+    name = models.CharField(max_length=50, choices=PLAN_CHOICES)
+    price = models.CharField(max_length=50)
+    features = models.TextField(help_text="Comma-separated list of features")
+
+    def feature_list(self):
+        return self.features.split(',')
+
+    def __str__(self):
+        return self.name
+
+
+# ===== FAQ =====
+class FAQCategory(models.Model):
+    title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+
+class FAQItem(models.Model):
+    category = models.ForeignKey(FAQCategory, on_delete=models.CASCADE, related_name='faqs')
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+
+# ===== TESTIMONIALS =====
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, blank=True)
+    photo = models.ImageField(upload_to='testimonials/')
+    text = models.TextField()
+
+    def __str__(self):
+        return self.name
+
 class Timetable(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)

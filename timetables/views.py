@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from datetime import time
-from .models import Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass, TimeSlot, Timetable
+from .models import HowItWorksStep, ServicePlan, FAQCategory, Testimonial, Stream, StreamSubjectTeacher, Subject, Teacher, SchoolClass, TimeSlot, Timetable
 from .forms import TeacherForm, ClassForm, SubjectForm, StreamSubjectTeacherForm, StreamFormSet
 from datetime import datetime, timedelta
 from django.db.models import Q
@@ -20,13 +20,32 @@ def root_redirect(request):
 
 
 def home(request):
-    return render(request, 'pages/home.html')
+    steps = HowItWorksStep.objects.all()
+    services = ServicePlan.objects.all()
+    faqs = FAQCategory.objects.all()
+    testimonials = Testimonial.objects.all()
+
+    context = {
+        'steps': steps,
+        'services': services,
+        'faqs': faqs,
+        'testimonials': testimonials,
+    }
+
+    return render(request, 'pages/home.html', context)
 
 def about(request):
-    return render(request, 'pages/about.html')
+    steps = HowItWorksStep.objects.all()
+    context = {'steps': steps}
+    return render(request, 'pages/about.html', context)
 
 def services(request):
-    return render(request, 'pages/services.html')
+    services = ServicePlan.objects.all()
+    faqs = FAQCategory.objects.prefetch_related('faqs').all()
+    testimonials = Testimonial.objects.all()
+    context = {'services': services, 'faqs': faqs, 'testimonials': testimonials}
+    return render(request, 'pages/services.html', context)
+
 
 def contact(request):
     return render(request, 'pages/contact.html')

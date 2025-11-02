@@ -1,31 +1,23 @@
 {% extends 'pages/base_pages.html' %}
 {% load static %}
 
-{% load static %}
-
 {% block title %}Home | Timetable Generator{% endblock %}
 
-
-
 {% block content %}
+
 <!-- ===== STATS SECTION ===== -->
 <section class="stats-section">
   <div class="stats-container">
-    <!-- Stat 1 -->
     <div class="stat-box">
       <i class="fas fa-school stat-icon"></i>
       <h3>30 +</h3>
       <p>Schools Using Our System</p>
     </div>
-
-    <!-- Stat 2 -->
     <div class="stat-box">
       <i class="fas fa-users stat-icon"></i>
       <h3>500 +</h3>
       <p>Teachers Registered</p>
     </div>
-
-    <!-- Stat 3 -->
     <div class="stat-box">
       <i class="fas fa-calendar-check stat-icon"></i>
       <h3>100 +</h3>
@@ -38,10 +30,13 @@
 <section id="pricing" class="pricing-section">
   <h2>ABOUT US</h2>
   <h4>Revolutionizing School Scheduling with Automation</h4>
-  <p class="pricing-subtitle">Our Intelligent Timetable Generator uses automation to create perfect, conflict-free school schedules in minutes. Automate complex tasks, save hours, and optimize your school's resources.<br> Timetable Generator simplifies school management through automated scheduling tools — saving time and boosting productivity.</p>
+  <p class="pricing-subtitle">
+    Our Intelligent Timetable Generator uses automation to create perfect, conflict-free school schedules in minutes.
+    Automate complex tasks, save hours, and optimize your school's resources.<br>
+    Timetable Generator simplifies school management through automated scheduling tools — saving time and boosting productivity.
+  </p>
 
   <div class="pricing-cards">
-    <!-- AI-Powered Scheduling -->
     <div class="pricing-card">
       <i class="fas fa-robot feature-icon"></i>
       <h3>AI-Powered Scheduling</h3>
@@ -53,7 +48,6 @@
       </ul>
     </div>
 
-    <!-- Smart Substitute Management -->
     <div class="pricing-card">
       <i class="fas fa-user-tie feature-icon"></i>
       <h3>Smart Substitute Management</h3>
@@ -65,7 +59,6 @@
       </ul>
     </div>
 
-    <!-- Easy Sharing & Collaboration -->
     <div class="pricing-card">
       <i class="fas fa-share-alt feature-icon"></i>
       <h3>Easy Sharing & Collaboration</h3>
@@ -77,7 +70,6 @@
       </ul>
     </div>
 
-    <!-- Quick Editing & Regeneration -->
     <div class="pricing-card">
       <i class="fas fa-edit feature-icon"></i>
       <h3>Quick Editing & Regeneration</h3>
@@ -89,7 +81,6 @@
       </ul>
     </div>
 
-    <!-- Access Anywhere -->
     <div class="pricing-card">
       <i class="fas fa-cloud feature-icon"></i>
       <h3>Access Anywhere</h3>
@@ -101,7 +92,6 @@
       </ul>
     </div>
 
-    <!-- Security & Compliance -->
     <div class="pricing-card">
       <i class="fas fa-shield-alt feature-icon"></i>
       <h3>Security & Compliance</h3>
@@ -125,68 +115,16 @@
   </p>
 
   <div class="steps-container">
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-pencil-alt"></i></div>
-      <div class="step-content">
-        <h5>STEP 1</h5>
-        <h3>Enter Your Details</h3>
-        <p>Add classes, teachers, and time slots easily with our smart interface.</p>
+    {% for step in steps %}
+      <div class="step">
+        <div class="step-icon"><i class="{{ step.icon_class }}"></i></div>
+        <div class="step-content">
+          <h5>STEP {{ step.step_number }}</h5>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+        </div>
       </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-check-circle"></i></div>
-      <div class="step-content">
-        <h5>STEP 2</h5>
-        <h3>Verify Inputs</h3>
-        <p>Our validation tool checks for missing data or conflicts instantly.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-magic"></i></div>
-      <div class="step-content">
-        <h5>STEP 3</h5>
-        <h3>Generate Automatically</h3>
-        <p>Let the system create an optimized timetable for all classes.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-eye"></i></div>
-      <div class="step-content">
-        <h5>STEP 4</h5>
-        <h3>Preview Results</h3>
-        <p>See your timetable visually before finalizing it.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-edit"></i></div>
-      <div class="step-content">
-        <h5>STEP 5</h5>
-        <h3>Adjust Easily</h3>
-        <p>Make quick edits using drag-and-drop adjustments.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-share-alt"></i></div>
-      <div class="step-content">
-        <h5>STEP 6</h5>
-        <h3>Share Instantly</h3>
-        <p>Send schedules to teachers, students, and parents with one click.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-icon"><i class="fas fa-print"></i></div>
-      <div class="step-content">
-        <h5>STEP 7</h5>
-        <h3>Download or Print</h3>
-        <p>Export your timetable as PDF or print directly from your dashboard.</p>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 
   <div class="cta-container">
@@ -198,45 +136,25 @@
 <!-- ===== SERVICES SECTION ===== -->
 <section id="pricing" class="pricing-section">
   <h2>OUR SERVICES</h2>
-  <h4>Choose you plan</h4>
-  <p class="pricing-subtitle">Simple, Transparent Pricing & Flexible options for every school — from small schools to large academies. <br> Choose the perfect plan for your institution. From small schools to large universities, TimetableMaster offers tailored solutions for all educational needs.</p>
+  <h4>Choose your plan</h4>
+  <p class="pricing-subtitle">
+    Simple, Transparent Pricing & Flexible options for every school — from small schools to large academies.<br>
+    Choose the perfect plan for your institution. From small schools to large universities, TimetableMaster offers tailored solutions for all educational needs.
+  </p>
 
   <div class="pricing-cards">
-    <!-- Basic -->
-    <div class="pricing-card basic">
-      <h3>Basic</h3>
-      <p class="price">Free</p>
-      <ul>
-        <li>Generate basic timetables</li>
-        <li>Up to 2 streams</li>
-        <li>Print and export to PDF</li>
-      </ul>
-      <a href="{% url 'login' %}" class="btn-global">Start Free</a>
-    </div>
-
-    <!-- Pro -->
-    <div class="pricing-card pro">
-      <h3>Pro</h3>
-      <p class="price">KSh 1,499 / month</p>
-      <ul>
-        <li>Unlimited classes and teachers</li>
-        <li>Auto conflict detection</li>
-        <li>Priority support</li>
-      </ul>
-      <a href="{% url 'login' %}" class="btn-global">Upgrade</a>
-    </div>
-
-    <!-- Max -->
-    <div class="pricing-card max">
-      <h3>Max</h3>
-      <p class="price">KSh 2,999 / month</p>
-      <ul>
-        <li>All Pro features</li>
-        <li>Multi-school support</li>
-        <li>Dedicated dashboard insights</li>
-      </ul>
-      <a href="{% url 'login' %}" class="btn-global">Get Max</a>
-    </div>
+    {% for plan in services %}
+      <div class="pricing-card {{ plan.name }}">
+        <h3>{{ plan.get_name_display }}</h3>
+        <p class="price">{{ plan.price }}</p>
+        <ul>
+          {% for feature in plan.feature_list %}
+            <li>{{ feature }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'login' %}" class="btn-global">Start Free</a>
+      </div>
+    {% endfor %}
   </div>
 </section>
 
@@ -251,74 +169,29 @@
     </p>
   </div>
 
-  <!-- ===== Getting Started ===== -->
-  <div class="faq-category">
-    <h3>Getting Started</h3>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        Is TimetableMaster free to use?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Yes! TimetableMaster offers a free plan with core scheduling tools.
-          You can upgrade for advanced features anytime.
-        </p>
-      </div>
+  {% for category in faqs %}
+    <div class="faq-category">
+      <h3>{{ category.title }}</h3>
+      {% for item in category.faqs.all %}
+        <div class="faq-item">
+          <button class="faq-question">
+            {{ item.question }}
+            <span class="faq-arrow">&#9662;</span>
+          </button>
+          <div class="faq-answer">
+            <p>{{ item.answer }}</p>
+          </div>
+        </div>
+      {% endfor %}
     </div>
+  {% endfor %}
 
-    <div class="faq-item">
-      <button class="faq-question">
-        Do I need to install anything on my computer?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          No installation needed! TimetableMaster runs directly in your browser.
-          You can access it from any internet-connected device.
-        </p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        How secure is my data?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Your data is encrypted and stored securely on our servers.
-          We use HTTPS and advanced access controls for protection.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== Other Categories (Shortened) ===== -->
-  <div class="faq-category">
-    <h3>Features & Functionality</h3>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        How do I handle different class subjects and teachers?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Simply add subjects and assign teachers during setup.
-          The system automatically avoids conflicts.
-        </p>
-      </div>
-    </div>
-  </div>
 
   <div class="cta-container">
     <p>Not satisfied! Check out more FAQs</p>
     <a href="{% url 'login' %}" class="cta-button">More FAQs</a>
   </div>
 
-  <!-- ===== Contact Support ===== -->
   <div class="contact-support">
     <h3>Still Have Questions?</h3>
     <p>Can't find what you're looking for? Our support team is here to help.</p>
@@ -326,7 +199,7 @@
   </div>
 </section>
 
-<!-- ====== TESTIMONIAL SECTION ====== -->
+<!-- ===== TESTIMONIAL SECTION ===== -->
 <section class="testimonial-section">
   <div class="testimonial-header">
     <h2>WHAT OUR CLIENTS SAY</h2>
@@ -336,72 +209,25 @@
 
   <div class="testimonial-slider">
     <div class="testimonial-track">
-
-      <!-- Testimonial 1 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 1">
-          <div>
-            <h4>Mary Wanjiku</h4>
-            <p>Principal, Green Valley School</p>
+      {% for t in testimonials %}
+        <div class="testimonial-item">
+          <div class="testimonial-top">
+            <img src="{{ t.photo.url }}" alt="{{ t.name }}">
+            <div>
+              <h4>{{ t.name }}</h4>
+              <p>{{ t.role }}</p>
+            </div>
           </div>
+          <p class="testimonial-text">{{ t.text }}</p>
         </div>
-        <p class="testimonial-text">
-          “TimetableMaster has completely transformed our scheduling. What used to take hours now takes just a few clicks!”
-        </p>
-      </div>
-
-      <!-- Testimonial 2 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 2">
-          <div>
-            <h4>James Otieno</h4>
-            <p>Head Teacher, Sunrise Academy</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “We love the automation! It saves so much time, and the conflict detection feature is brilliant.”
-        </p>
-      </div>
-
-      <!-- Testimonial 3 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 3">
-          <div>
-            <h4>Lucy Mwangi</h4>
-            <p>Administrator, Hillcrest High</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “Our teachers find it so easy to view and edit their schedules. The interface is intuitive and responsive.”
-        </p>
-      </div>
-
-      <!-- Testimonial 4 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 4">
-          <div>
-            <h4>Samuel Kariuki</h4>
-            <p>Deputy Principal, St. Anne’s Academy</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “This platform has improved communication across our staff. Everything is in one place now.”
-        </p>
-      </div>
-
+      {% endfor %}
     </div>
   </div>
 
-  <!-- Navigation buttons -->
   <div class="testimonial-controls">
     <button id="prevBtn">&#10094;</button>
     <button id="nextBtn">&#10095;</button>
   </div>
 </section>
-
 
 {% endblock %}

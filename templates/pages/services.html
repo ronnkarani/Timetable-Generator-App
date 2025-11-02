@@ -12,42 +12,20 @@
   <p class="pricing-subtitle">Simple, Transparent Pricing & Flexible options for every school — from small schools to large academies. <br> Choose the perfect plan for your institution. From small schools to large universities, TimetableMaster offers tailored solutions for all educational needs.</p>
 
   <div class="pricing-cards">
-    <!-- Basic -->
-    <div class="pricing-card basic">
-      <h3>Basic</h3>
-      <p class="price">Free</p>
+    {% for service in services %}
+    <div class="pricing-card {{ service.name }}">
+      <h3>{{ service.get_name_display }}</h3>
+      <p class="price">{{ service.price }}</p>
       <ul>
-        <li>Generate basic timetables</li>
-        <li>Up to 2 streams</li>
-        <li>Print and export to PDF</li>
+        {% for feature in service.feature_list %}
+        <li>{{ feature }}</li>
+        {% endfor %}
       </ul>
-      <a href="{% url 'login' %}" class="btn-global">Start Free</a>
+      <a href="{% url 'login' %}" class="btn-global">Get {{ service.get_name_display }}</a>
     </div>
-
-    <!-- Pro -->
-    <div class="pricing-card pro">
-      <h3>Pro</h3>
-      <p class="price">KSh 1,499 / month</p>
-      <ul>
-        <li>Unlimited classes and teachers</li>
-        <li>Auto conflict detection</li>
-        <li>Priority support</li>
-      </ul>
-      <a href="{% url 'login' %}" class="btn-global">Upgrade</a>
-    </div>
-
-    <!-- Max -->
-    <div class="pricing-card max">
-      <h3>Max</h3>
-      <p class="price">KSh 2,999 / month</p>
-      <ul>
-        <li>All Pro features</li>
-        <li>Multi-school support</li>
-        <li>Dedicated dashboard insights</li>
-      </ul>
-      <a href="{% url 'login' %}" class="btn-global">Get Max</a>
-    </div>
+    {% endfor %}
   </div>
+
 </section>
 
 <!-- ===== FAQ SECTION ===== -->
@@ -62,66 +40,23 @@
   </div>
 
   <!-- ===== Getting Started ===== -->
-  <div class="faq-category">
-    <h3>Getting Started</h3>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        Is TimetableMaster free to use?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Yes! TimetableMaster offers a free plan with core scheduling tools.
-          You can upgrade for advanced features anytime.
-        </p>
+  {% for category in faqs %}
+    <div class="faq-category">
+      <h3>{{ category.title }}</h3>
+      {% for item in category.faqs.all %}
+      <div class="faq-item">
+        <button class="faq-question">
+          {{ item.question }}
+          <span class="faq-arrow">&#9662;</span>
+        </button>
+        <div class="faq-answer">
+          <p>{{ item.answer }}</p>
+        </div>
       </div>
+      {% endfor %}
     </div>
+    {% endfor %}
 
-    <div class="faq-item">
-      <button class="faq-question">
-        Do I need to install anything on my computer?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          No installation needed! TimetableMaster runs directly in your browser.
-          You can access it from any internet-connected device.
-        </p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        How secure is my data?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Your data is encrypted and stored securely on our servers.
-          We use HTTPS and advanced access controls for protection.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== Other Categories (Shortened) ===== -->
-  <div class="faq-category">
-    <h3>Features & Functionality</h3>
-
-    <div class="faq-item">
-      <button class="faq-question">
-        How do I handle different class subjects and teachers?
-        <span class="faq-arrow">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>
-          Simply add subjects and assign teachers during setup.
-          The system automatically avoids conflicts.
-        </p>
-      </div>
-    </div>
-  </div>
 
   <div class="cta-container">
     <p>Not satisfied! Check out more FAQs</p>
@@ -147,62 +82,18 @@
   <div class="testimonial-slider">
     <div class="testimonial-track">
 
-      <!-- Testimonial 1 -->
+      {% for testimonial in testimonials %}
       <div class="testimonial-item">
         <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 1">
+          <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.name }}">
           <div>
-            <h4>Mary Wanjiku</h4>
-            <p>Principal, Green Valley School</p>
+            <h4>{{ testimonial.name }}</h4>
+            <p>{{ testimonial.role }}</p>
           </div>
         </div>
-        <p class="testimonial-text">
-          “TimetableMaster has completely transformed our scheduling. What used to take hours now takes just a few clicks!”
-        </p>
+        <p class="testimonial-text">{{ testimonial.text }}</p>
       </div>
-
-      <!-- Testimonial 2 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 2">
-          <div>
-            <h4>James Otieno</h4>
-            <p>Head Teacher, Sunrise Academy</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “We love the automation! It saves so much time, and the conflict detection feature is brilliant.”
-        </p>
-      </div>
-
-      <!-- Testimonial 3 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user2.jpg' %}" alt="User 3">
-          <div>
-            <h4>Lucy Mwangi</h4>
-            <p>Administrator, Hillcrest High</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “Our teachers find it so easy to view and edit their schedules. The interface is intuitive and responsive.”
-        </p>
-      </div>
-
-      <!-- Testimonial 4 -->
-      <div class="testimonial-item">
-        <div class="testimonial-top">
-          <img src="{% static 'images/user3.jpg' %}" alt="User 4">
-          <div>
-            <h4>Samuel Kariuki</h4>
-            <p>Deputy Principal, St. Anne’s Academy</p>
-          </div>
-        </div>
-        <p class="testimonial-text">
-          “This platform has improved communication across our staff. Everything is in one place now.”
-        </p>
-      </div>
-
+      {% endfor %}
     </div>
   </div>
 
