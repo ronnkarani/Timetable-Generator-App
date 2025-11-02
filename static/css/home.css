@@ -9,13 +9,13 @@ html, body {
   height: 100%;
   overflow-x: hidden; 
   background-color: #fff;
-  padding-top: 25px;
+  padding-top: 35px;
 }
 
-/* only add padding when hero is absent */
+/* only add padding when hero is absent
 .page-content {
   padding-top: 70px;
-}
+} */
 
 
 /* === NAVBAR FIXED & RESPONSIVE === */
@@ -206,7 +206,7 @@ html, body {
   margin-top: 0;
   position: relative;
   min-height: 85vh;
-  background: url('/static/images/hero-bg.jpg') center center / cover no-repeat;
+  background-color: #000; /* fallback color */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,18 +215,33 @@ html, body {
   overflow: hidden;
 }
 
+.hero-section img.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* Ensures scaling properly */
+  object-position: center;  /* Centers the image */
+  z-index: 0;
+  max-width: 100%;          /* ✅ Ensures no overflow */
+  height: auto;             /* ✅ Keeps proportions on smaller screens */
+}
+
+
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: none;
+  background: rgba(0, 0, 0, 0.2); /* optional dark overlay */
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
-  z-index: 10;
+  z-index: 2;
   max-width: 800px;
   padding: 0 20px;
 }
@@ -235,15 +250,31 @@ html, body {
   font-size: 2rem;
   margin-bottom: 1rem;
   font-weight: bolder;
-  color: rgb(10, 0, 0);
+  color: #fff;
 }
 
 .hero-content p {
   font-size: 1.1rem;
   margin-bottom: 1.8rem;
-  font-weight: bolder;
-  color: rgb(10, 0, 0);
+  font-weight: bold;
+  color: #ffffff;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 70vh;
+  }
+
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
+
 
 .btn-hero,
 .btn-outline {
@@ -997,18 +1028,6 @@ html, body {
 
 /* === RESPONSIVENESS === */
 @media (max-width: 768px) {
-  .hero-section {
-    min-height: 70vh;
-    background-position: center top;
-  }
-
-  .hero-content h1 {
-    font-size: 1.6rem;
-  }
-
-  .hero-content p {
-    font-size: 1rem;
-  }
 
   .pricing-card {
     padding: 20px 15px;

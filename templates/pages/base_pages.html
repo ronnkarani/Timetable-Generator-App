@@ -58,18 +58,18 @@
 
 <!-- ===== HERO SECTION ===== -->
 {% block hero %}
-<!-- ===== HERO SECTION ===== -->
 <section class="hero-section">
+  <img src="{% static 'images/hero-bg.jpg' %}" alt="Timetable Generator Hero" class="hero-bg">
   <div class="hero-overlay"></div>
+
   <div class="hero-content">
-    <h1> Empower your School   with our Smart Timetable Generator. </h1>
-    <p>Create, Manage & Print School Timetables  seamlessly with our Automated System</p>
+    <h1>Empower your School with our Smart Timetable Generator.</h1>
+    <p>Create, Manage & Print School Timetables seamlessly with our Automated System.</p>
 
     {% if user.is_authenticated %}
       <a href="{% url 'dashboard' %}" class="btn-hero">Go to Dashboard</a>
-    
-      <a href="{% url 'login' %}" class="btn-hero">Get Started</a>
     {% else %}
+      <a href="{% url 'login' %}" class="btn-hero">Get Started</a>
       <a href="{% url 'about' %}" class="btn-outline">Learn More</a>
     {% endif %}
   </div>
