@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: timetable-generator
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn timetable_system.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: timetable_system.settings
+      - key: PYTHON_VERSION
+        value: 3.10

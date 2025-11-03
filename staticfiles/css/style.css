@@ -1,0 +1,932 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-top: 60px; /* Navbar height */
+  overflow-x: hidden; /* hides any horizontal overflow */
+}
+
+/* Main content padding */
+main {
+  padding: 20px;
+  min-height: calc(100vh - 120px);
+  position: relative;
+  z-index: 1;
+  padding-bottom: 70px; /* 👈 ensures footer space so nothing overlaps */
+}
+
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; /* ensures full width without overflow */
+  background: maroon;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  z-index: 1000;
+  box-sizing: border-box; /* include padding in width calculations */
+  overflow-x: hidden; /* prevent scroll overflow */
+}
+
+
+nav .logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+nav .logo a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+nav .logo i {
+  margin-right: 8px; /* space between icon and text */
+  color: white;       /* match the logo text color */
+}
+
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap; /* allows items to wrap instead of overflowing */
+}
+
+nav ul li {
+  margin-left: 20px;
+  flex-shrink: 1; /* allows shrinking if needed */
+}
+
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px; /* optional */
+}
+
+
+/* === User Dropdown === */
+.user-menu {
+  position: relative;
+  display: inline-block;
+  margin-left: 17px;
+  margin-right: 14px;
+}
+
+.user-icon {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.user-icon:hover {
+  transform: scale(1.1);
+}
+/* User dropdown like hamburger on all screens */
+.user-dropdown {
+  display: none; /* default hidden */
+  position: fixed; /* fixed to viewport instead of inline navbar */
+  top: 60px;      /* just below navbar height */
+  right: 0;       /* align to right */
+  width: 200px;   /* match hamburger menu width */
+  background: maroon;
+  color: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 10000;
+  overflow: hidden;
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.user-dropdown.show {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.user-dropdown a,
+.user-dropdown p {
+  display: block;
+  padding: 10px 14px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.user-dropdown a:hover {
+  background: rgb(53, 1, 1);
+  color: white;
+}
+
+.user-dropdown p {
+  border-bottom: 1px solid #eee;
+  margin: 0;
+  font-weight: bold;
+}
+
+
+/* Responsive fix for small screens */
+@media (max-width: 768px) {
+  .user-menu {
+    position: static;
+  }
+  .user-dropdown {
+    position: fixed;
+    top: 60px; /* below navbar */
+    right: 0;
+    width: 200px;
+  }
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.profile-container h1 {
+  color: maroon;
+  margin-bottom: 20px;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.profile-avatar i {
+  font-size: 80px;
+  color: maroon;
+}
+
+.profile-details p {
+  margin: 6px 0;
+  font-weight: 500;
+  text-align: left;
+}
+
+.profile-details strong {
+  color: #444;
+}
+
+.profile-container .btn {
+  width: 100%;
+  background: maroon;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  transition: 0.3s ease;
+}
+
+.profile-container .btn:hover {
+  background: darkred;
+}
+
+.stream-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    align-items: center;
+}
+.stream-form select {
+    padding: 0.3rem;
+}
+
+.detail-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+.detail-container th, .detail-container td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+.detail-container h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+   margin-left: 7px; /* small extra spacing */
+  z-index: 3000;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: white;
+  margin: 4px 0;
+}
+
+
+/* Search Form Styling */
+.search-form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.search-form input[type="text"] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 300px;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background: maroon;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-form button:hover {
+    background: #800000; /* slightly darker on hover */
+}
+
+/* Forms */
+.form-container {
+  background: #fff;
+  padding: 20px;
+  margin: 40px auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-container h1 {
+  text-align: center;
+  color: maroon;
+  margin-bottom: 10px;
+}
+
+.form-container p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  background: maroon;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: darkred;
+}
+
+
+.dashboard-links h2 {
+  margin-top: 30px;
+  color: white;
+  background: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-align: center;       /* ✅ centers the heading */
+  display: inline-block;    /* keeps width tight to text */
+  margin-left: 50%;
+  transform: translateX(-50%); /* ✅ perfectly centers it horizontally */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2); /* optional depth effect */
+}
+
+
+.dashboard-links ul li a i {
+  margin-right: 8px; /* space between icon and text */
+  color: white; /* match link color */
+}
+
+
+/* === Dashboard Cards === */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.card {
+  background: maroon;
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.card a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.card a i {
+  margin-right: 8px;
+}
+
+/* Highlighted main action card */
+.highlight-card {
+  background: linear-gradient(135deg, rgb(0, 128, 21), #4dff5c);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 128, 21, 0.4);
+  transform: scale(1.02);
+  border: 2px solid #ffcccc;
+  animation: pulse 2s infinite;
+}
+
+.highlight-card a {
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.highlight-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 15px rgba(128, 0, 0, 0.5);
+  animation: none; /* stop pulsing when hovered */
+}
+
+/* Subtle glowing pulse animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(24, 114, 29, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(77, 255, 77, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(77, 255, 107, 0.5);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Universal button/link style */
+.btn-global {
+  display: inline-block;
+  background: maroon;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.btn-global:hover {
+  background: #240303;
+  
+}
+
+/* Universal paragraph styling for content pages */
+main p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 12px;
+  background: #f9f9f9;
+  border-left: 4px solid maroon;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Highlight links inside paragraphs */
+main p a {
+  color: maroon;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+main p a:hover {
+  text-decoration: underline;
+  color: #a10000;
+}
+
+
+/* Timetable tables */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+h2 {
+  background: maroon;
+  color: white;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 40px;
+  background: white;
+  table-layout: fixed;
+}
+
+th, td {
+  border: 1px solid #333;
+  text-align: center;
+  padding: 6px;
+  font-size: 13px;
+    font-weight: bold;
+
+  word-wrap: break-word;
+}
+
+th {
+  background: #444;
+  color: white;
+}
+
+td.break {
+  background: #f2dede;
+  font-weight: bold;
+  color: #a94442;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+td.subject {
+  background: #dff0d8;
+}
+
+.controls {
+  margin: 20px auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.controls a,
+.controls button {
+  display: inline-flex;
+   align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Distinct button colors */
+.controls .btn-print {
+  background: #333;
+  color: white  !important;
+}
+
+.controls a[href*="regenerate"] {
+  background: #28a745;
+  color: white;
+}
+
+/* Hover effects */
+.controls a:hover,
+.controls button:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+
+.timetable { 
+  width: 100%; 
+  border-collapse: collapse;
+  page-break-after: always; /* print each timetable on a separate page */
+}
+
+.timetable th, .timetable td {
+  border: 1px solid #333;
+  padding: 5px;
+  text-align: center;
+}
+
+.break { 
+  background-color: #f0f0f0; 
+  font-style: italic; 
+}
+
+.subject { 
+  text-align: center; 
+}
+
+.stream-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Action buttons in tables */
+.action-btn {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s ease-in-out;
+}
+
+.action-btn.view { background: #17a2b8; color: white; }  /* teal */
+.action-btn.edit { background: #ffc107; color: black; }   /* yellow */
+.action-btn.delete { background: #dc3545; color: white; } /* red */
+
+.action-btn:hover {
+  opacity: 0.8;
+}
+
+/* Pagination styling */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 6px 12px;
+  color: white;
+  background: maroon;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  background: #800000;
+}
+
+.pagination span {
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+
+/* Universal Detail and Delete Pages */
+.detail-container, .delete-container {
+  background: #fff;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.detail-container h1,
+.delete-container h1 {
+  color: maroon;
+  margin-bottom: 20px;
+}
+
+.detail-container p, .delete-container p {
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.detail-actions, .delete-container form {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+.action-btn.back { background: #6c757d; }
+.action-btn.edit { background: #007bff; }
+.action-btn.delete { background: #dc3545; }
+.action-btn.view { background: #17a2b8; }
+
+.action-btn:hover { opacity: 0.9; }
+
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: maroon;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 2000; /* make sure it's above all content */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2); /* optional nice touch */
+}
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  th {
+    display: none;
+      font-weight: bold;
+
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
+ 
+
+
+@media print {
+  .controls { display: none; } /* hide buttons when printing */
+  body * {
+    visibility: hidden; /* hide everything else */
+  }
+  .timetable-container, .timetable-container * {
+    visibility: visible; /* show timetable and its title */
+  }
+  .timetable-container {
+    page-break-before: always;
+    page-break-after: always;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 3000; /* keep it clickable */
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: maroon;
+    position: fixed;
+    top: 60px; /* appear below navbar */
+    right: 0;
+    width: 200px;
+    z-index: 2500; /* above content */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  nav ul.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  nav ul li {
+    text-align: center;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+  }
+
+  nav ul li a:hover {
+    background: #800000; /* dark maroon */
+    color: #fff;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  nav ul {
+  transition: all 0.3s ease-in-out;
+}
+
+}
+
+
+/* === DASHBOARD STYLING === */
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.dashboard-header {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 12px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.dashboard-header.superadmin {
+  background: linear-gradient(135deg, maroon, #8b0000);
+}
+
+.dashboard-header.admin {
+  background: linear-gradient(135deg, #2e8b57, #228b22);
+}
+
+.dashboard-header.guest {
+  background: linear-gradient(135deg, #555, #333);
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Section wrappers */
+.dashboard-section {
+  margin-bottom: 40px;
+}
+
+.dashboard-section h2 {
+  background: maroon;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Cards for data overview */
+.data-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.data-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.data-card h3 {
+  color: maroon;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.data-card p {
+  font-size: 14px;
+  color: #333;
+}
+
+.data-card.small {
+  padding: 15px;
+  text-align: center;
+}
+
+.empty {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 10px;
+}
+
+/* Subtle hover effects for global buttons inside dashboard */
+.dashboard-wrapper .btn-global {
+  background: maroon;
+  color: white;
+  border-radius: 8px;
+}
+
+.dashboard-wrapper .btn-global:hover {
+  background: darkred;
+}
+
+
